@@ -41,6 +41,7 @@ const Preferences = (props: Props) => {
 
       setPreferences(new_data);
     }
+
     return (
       <>
         <div className="container mx-auto my-7">
@@ -74,7 +75,7 @@ const Preferences = (props: Props) => {
                 JSON.stringify(initialPreferences)
               }
             >
-              {loading ?  <BiLoaderAlt className="text-center animate-spin w-[20px] h-[20px]" /> : "Apply Changes"}
+              {loading ? <BiLoaderAlt className="text-center animate-spin w-[20px] h-[20px]" /> : "Apply Changes"}
             </button>
           </div>
 
@@ -273,6 +274,7 @@ const Preferences = (props: Props) => {
     );
   };
   const PreferencesForNormalUsers = () => {
+
     return (
       <div className="container mx-auto my-7">
         {/* top section */}
@@ -295,14 +297,14 @@ const Preferences = (props: Props) => {
               } border border-white `}
             onClick={async () => {
               setLoading(true)
-                await updatePreferences(preferences.id, preferences);
-                setLoading(false)
+              await updatePreferences(preferences.id, preferences);
+              setLoading(false)
             }}
             disabled={
               JSON.stringify(preferences) == JSON.stringify(initialPreferences)
             }
           >
-           {loading ?  <BiLoaderAlt className="text-center animate-spin w-[20px] h-[20px]" /> : "Apply Changes"}
+            {loading ? <BiLoaderAlt className="text-center animate-spin w-[20px] h-[20px]" /> : "Apply Changes"}
           </button>
         </div>
 
@@ -638,18 +640,40 @@ const Preferences = (props: Props) => {
             preferences={preferences}
             setPreferences={setPreferences}
           />
-          <PreferencesRangeData
+          {/* <PreferencesRangeData
             text="construction date"
             type="constructionDateRange"
             preferences={preferences}
             setPreferences={setPreferences}
-          />
+          /> */}
+
+
+
           <PreferencesRangeData
             text="size considerations"
             type="sizeConsiderationsRange"
             preferences={preferences}
             setPreferences={setPreferences}
           />
+        </div>
+
+        <div className="my-8">
+          <h1 className="w-[18px] font-medium text-nowrap leading-[24px] capitalize mb-4">
+            Construction Date
+          </h1>
+          <ConstructionDateRangePicker
+            setconstructionDateRange={setPreferences}
+            type="constructionDateRange"
+            preferences={preferences}
+            setPreferences={setPreferences}
+            constructionDateRange={{
+              [`min_constructionDateRange`]:
+                preferences?.[`min_constructionDateRange`],
+              [`max_constructionDateRange`]:
+                preferences?.[`max_constructionDateRange`],
+            }}
+          />
+
         </div>
 
         {/* Property Category */}
@@ -713,9 +737,9 @@ const Preferences = (props: Props) => {
           <PreferencesSelectBox
             header="Neighborhood"
             data={["Ontario", "Vancouver", "Montreal"]}
-             seledtedValue={preferences?.location?.neighborhood}
+            seledtedValue={preferences?.location?.neighborhood}
             onValueChange={(arg) => {
-             setPreferences({
+              setPreferences({
                 ...preferences,
                 location: {
                   ...preferences.location,
@@ -729,7 +753,7 @@ const Preferences = (props: Props) => {
             data={["6768", "5767", "8809", "7987"]}
             seledtedValue={preferences?.location?.zipCode}
             onValueChange={(arg) => {
-             setPreferences({
+              setPreferences({
                 ...preferences,
                 location: {
                   ...preferences.location,
@@ -743,9 +767,9 @@ const Preferences = (props: Props) => {
             data={["Near Gas Station",
               "Opposite Abc Hospital",
               "Near St. Merry School",]}
-              seledtedValue={preferences?.location?.landmarks}
-              onValueChange={(arg) => {
-             setPreferences({
+            seledtedValue={preferences?.location?.landmarks}
+            onValueChange={(arg) => {
+              setPreferences({
                 ...preferences,
                 location: {
                   ...preferences.location,

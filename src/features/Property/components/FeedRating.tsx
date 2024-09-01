@@ -6,9 +6,11 @@ type Props = {
     slug?: string
 }
 
-const Rating = ({ slug }: Props) => {
+const FeedRating = ({ slug }: Props) => {
 
     const { data, loading } = useGetReviews(slug)
+
+
 
     // Helper function to return a numeric rating
     const returnNumericRating = (rating: string) => {
@@ -26,7 +28,7 @@ const Rating = ({ slug }: Props) => {
     }
 
 
-    console.log(slug, data)
+
 
     // console.log("this is the data", data)
 
@@ -45,13 +47,15 @@ const Rating = ({ slug }: Props) => {
     // Round the average rating to the nearest integer
     const roundedAverageRating = Math.round(averageRating);
 
+
+
     return (
-        <div className="flex mt-2">
-            {[1, 2, 3, 4, 5].map((i, index) => (
-                <FaStar key={index} className={`text-[#F6B501] ${i <= roundedAverageRating ? '' : 'opacity-30'}`} />
-            ))}
+        <div className="flex mt-2 items-center">
+
+            <FaStar className={`text-[#F6B501]`} />
+            {roundedAverageRating}({data?.length})
         </div>
     )
 }
 
-export default Rating
+export default FeedRating

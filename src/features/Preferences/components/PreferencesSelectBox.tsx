@@ -15,7 +15,7 @@ type Props = {
 
 const PreferencesSelectBox = ({ header, data, onValueChange, seledtedValue }: Props) => {
   return (
-    <div className="flex flex-col w-full md:max-w-[263.25px] gap-[8px] ">
+    <div className="flex mx-2 my-2 flex-col w-full md:max-w-[263.25px] gap-[8px] ">
       {/* the text */}
       <h1 className="text-[14px] font-medium  text-[#202C45]">{header}</h1>
       {/* the selection box */}

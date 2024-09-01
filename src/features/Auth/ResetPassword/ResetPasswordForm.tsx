@@ -91,8 +91,11 @@ const ResetPasswordForm = (props: Props) => {
         });
         setLoader(false);
       } else {
-        router.replace("/sign-in");
-
+        router.replace("/log-in");
+        toast({
+          variant: "default",
+          description: "Password reset successful",
+        });
         setLoader(false);
       }
     } catch (error) {

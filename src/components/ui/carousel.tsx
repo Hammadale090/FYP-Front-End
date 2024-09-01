@@ -5,7 +5,8 @@ import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
-
+import { SlArrowLeft } from "react-icons/sl";
+import { RiArrowLeftSLine } from "react-icons/ri";
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -200,24 +201,27 @@ const CarouselPrevious = React.forwardRef<
   React.ComponentProps<typeof Button>
 >(({ className, variant = "outline", size = "icon", ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
-
+  const [active, setActive] = React.useState<boolean>(false)
   return (
     <Button
       ref={ref}
       variant={variant}
       size={size}
       className={cn(
-        "absolute  h-[48px] w-[48px] cursor-pointer border-[#3EB87F]  rounded-full",
+        "absolute h-[48px] w-[48px] cursor-pointer bg-[#3EB87F] rounded-full hover:bg-[#5ff5af]",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
-      onClick={scrollPrev}
+      onClick={() => {
+        setActive(true)
+        scrollPrev();
+      }}
       {...props}
     >
-      <Image src="/ui/leftArrow.png" width={100} height={100} alt="left arrow" className="h-4 w-2" />
+      <RiArrowLeftSLine className="text-white w-8 h-8" />
       {/* <ArrowLeft className="h-4 w-4" /> */}
       <span className="sr-only">Previous slide</span>
     </Button>

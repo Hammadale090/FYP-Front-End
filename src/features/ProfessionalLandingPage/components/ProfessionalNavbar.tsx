@@ -12,7 +12,7 @@ const ProfessionalNavbar = (props: Props) => {
       <div className="flex items-center space-x-4 md:space-x-20">
         {/* The logo */}
         <Image
-          src={"/Dashboard/RR.png"}
+          src={"/Dashboard/Logo.png"}
           alt="Logo"
           height={1000}
           width={1000}
@@ -28,8 +28,8 @@ const ProfessionalNavbar = (props: Props) => {
         />
       </div>
 
-      <div className="flex space-x-4">
-        <div className="hidden md:flex space-x-3 items-center ">
+      <div className="flex space-x-7">
+        <div className="hidden md:flex space-x-7 items-center ">
           <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-[#3EB87F]">
             Home
           </h1>

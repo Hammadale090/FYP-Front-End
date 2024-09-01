@@ -108,12 +108,12 @@ const ProfilePictureSetting = (props: Props) => {
             <Image className=' object-cover rounded-[15px] flex-shrink-0 w-[360.53px] h-[307.2px]' src={imagesrc ? imagesrc : profilepic ? profilepic : "https://images.unsplash.com/photo-1604147706283-d7119b5b822c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2hpdGUlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww"} height={1000} width={1000} alt='profile pic' />
 
             {/* the change photo container */}
-            <div className='absolute bottom-[23px] left-11 gap-[10px] cursor-pointer bg-white rounded-[8px] px-[15px] py-[10px]'>
-                <div className='flex space-x-2 items-center'>
+            <div className='absolute bottom-[23px] left-11 gap-[10px] cursor-pointer bg-[#F4F4F4] rounded-[8px] px-[15px] py-[10px]'>
+                <div className='flex gap-[10px] items-center'>
                     {/* the camera */}
                     <Image className='w-[18px] h-[18px]' src={"/Dashboard/filled.svg"} height={500} width={500} alt='camera' />
 
-                    <Label htmlFor="picture" className='text-[14px] leading-[22px] font-normal  '>
+                    <Label htmlFor="picture" className='text-[14px] leading-[22px] font-normal  text-[#11142D]'>
                         {loader ? (
                             <BiLoaderAlt className='text-center animate-spin' />
                         ) : (

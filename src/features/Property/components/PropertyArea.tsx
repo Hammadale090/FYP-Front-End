@@ -20,6 +20,8 @@ const PropertyArea = () => {
   const { sort } = useContext<any>(ListingContext);
 
   const { properties, sortingOption } = useContext<any>(FeedContext);
+  const { myFilters } =
+    useContext<any>(FeedContext);
 
   let data,
     loading,
@@ -139,7 +141,18 @@ const PropertyArea = () => {
   return (
     <div>
       <div className="flex flex-wrap justify-center  md:gap-8">
-        {sortedData?.[currentPage]?.map((listing: Listing) => (
+
+
+        {
+          (sortedData?.[currentPage]?.length < 1 && !loading) && (
+            <div className="text-center text-gray-500 text-sm mt-10">Sorry, no properties match your preference. Please try adjusting your preference.</div>
+          )
+        }
+
+
+
+
+        {(myFilters?.propertyType ? sortedData?.[currentPage]?.filter(listing => listing?.attributes?.type?.toLowerCase() === myFilters?.propertyType?.toLowerCase()) : sortedData?.[currentPage])?.map((listing: Listing) => (
           <div className="" key={listing?.id}>
             <FeedPropertyCard
               id={listing?.id}

@@ -28,7 +28,9 @@ type Props = {
   updatePort?: (id: string | number | undefined) => void;
   portfolioClick?: any;
   AddOnclick?: React.MouseEventHandler<HTMLDivElement> | undefined;
+  service?: boolean;
   disabled?: boolean;
+  serviceFunc?: any;
 };
 
 const FeedPropertyCard = ({
@@ -39,6 +41,7 @@ const FeedPropertyCard = ({
   Add,
   updatePort,
   AddOnclick,
+  serviceFunc,
   portfolioClick,
   Addtext,
   title,
@@ -47,22 +50,24 @@ const FeedPropertyCard = ({
   location,
   price,
   currency,
+  service,
   banner,
   views,
   favourites: initialFavourites,
 }: Props) => {
   const router = useRouter();
 
-  console.log("banner: type: ", typeof banner, banner);
+  // console.log("banner: type: ", typeof banner, banner, title);
 
-
-  const { addOrRemovePropertyFromfavourites, setPropertyData }: any = useContext(ListingContext);
+  const { addOrRemovePropertyFromfavourites, setPropertyData }: any =
+    useContext(ListingContext);
   const { profileId } = useContext(AuthContext);
-  const { data, setData } = useContext(ProfSettingsContext)
+  const { data, setData } = useContext(ProfSettingsContext);
   const [loader, setLoader] = useState<boolean>(false);
 
   // Initialize favouritess with an empty array if initialFavourites is null
   const [favouritess, setFavouritess] = useState(initialFavourites || []);
+
 
   useEffect(() => {
     // Update favouritess only if initialFavourites is not null
@@ -89,6 +94,29 @@ const FeedPropertyCard = ({
     }
   };
 
+  function bannerSRC(banner: any) {
+
+    if (banner && banner?.data) {
+      if (Array.isArray(banner)) {
+        return banner[0]?.data?.attributes?.url || "/Dashboard/PropertyImage.png";
+      }
+
+
+      if (banner.data.attributes) {
+        return banner.data.attributes.url || "/Dashboard/PropertyImage.png";
+      }
+    }
+
+    if (banner?.attributes) {
+      return banner.attributes.url || "/Dashboard/PropertyImage.png";
+    }
+
+    if (typeof banner === "string") {
+      return banner
+    }
+
+    return "/Dashboard/PropertyImage.png";
+  }
 
   return (
     <div className={`  my-2 w-[338px]  h-[547px]  relative`}>
@@ -101,15 +129,7 @@ const FeedPropertyCard = ({
           width={800}
           className="h-[40%] rounded-t-xl object-cover "
           alt="property Image"
-          src={
-            (typeof banner === 'string' && banner !== "") ? banner
-              :
-              (bannerTrue && banner?.data)
-                ? banner?.data[0]?.attributes?.url
-                : banner?.data
-                  ? banner?.data?.attributes?.url
-                  : "/Dashboard/PropertyImage.png"
-          }
+          src={bannerSRC(banner)}
         />
         {/* The lower div */}
         <div className="py-5 px-5 h-[60%] space-y-3 flex  flex-col  justify-between">
@@ -209,40 +229,59 @@ const FeedPropertyCard = ({
 
           {/* view details button */}
 
-          <div
-            className="w-full h-[38px] text-white text-[16px] font-normal bg-[#3EB87F] rounded-[6px] flex flex-col justify-center items-center"
-            onClick={() => {
-              if (portfolio) {
-                updatePort && updatePort(id);
-              } else {
-                setPropertyData(null)
-                router.push(`/dashboard/property/listing-created/${id}`);
-              }
-            }}
-          >
-            {portfolio ? "Edit or Remove" : "View Details"}
-          </div>
+          {
+            service ? (
+              <div
+                className="w-full h-[38px] text-white text-[16px] font-normal bg-[#3EB87F] rounded-[6px] flex flex-col justify-center items-center"
+                onClick={
+                  () => {
+                    serviceFunc(id)
+                  }}
+              >
+                Edit or Remove
+              </div>
+            ) : (
+              <div
+                className="w-full h-[38px] text-white text-[16px] font-normal bg-[#3EB87F] rounded-[6px] flex flex-col justify-center items-center"
+                onClick={
+                  () => {
+                    if (portfolio) {
+                      updatePort && updatePort(id);
+                    } else {
+                      setPropertyData(null);
+                      router.push(`/dashboard/property/listing-created/${id}`);
+                    }
+                  }}
+              >
+                {portfolio ? "Edit or Remove" : "View Details"}
+              </div>
+            )
+          }
+
+
         </div>
       </div>
 
-      {Add && (
-        <div className="absolute top-0 w-full md:w-[338px]  flex-shrink-0 rounded-xl left-0 h-full  bg-gray-400 bg-opacity-5 backdrop-blur-lg  h-[600px]">
-          <div className="flex flex-col w-full h-full justify-center items-center">
-            <IconShowcaseBox
-              onClick={AddOnclick}
-              text={`${Addtext ? Addtext : "Add Portfolio"}`}
-              color="#3EB87F"
-              width="w-fit"
-              textCN="text-[16px] font-semibold leading-[26px] text-white mx-[19px]"
-              px="19px"
-              py="9px"
-              rounded={"4px"}
-              noBorder
-            />
+      {
+        Add && (
+          <div className="absolute top-0 w-full md:w-[338px]  flex-shrink-0 rounded-xl left-0 h-full  bg-gray-400 bg-opacity-5 backdrop-blur-lg  h-[600px]">
+            <div className="flex flex-col w-full h-full justify-center items-center">
+              <IconShowcaseBox
+                onClick={AddOnclick}
+                text={`${Addtext ? Addtext : "Add Portfolio"}`}
+                color="#3EB87F"
+                width="w-fit"
+                textCN="text-[16px] font-semibold leading-[26px] text-white mx-[19px]"
+                px="19px"
+                py="9px"
+                rounded={"4px"}
+                noBorder
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 

@@ -76,7 +76,7 @@ const PreferencesQuestions = ({
 
                     setPreferences(_preference);
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
-                  } catch (error) {}
+                  } catch (error) { }
                 }
               }}
             >
@@ -114,11 +114,10 @@ const PreferencesQuestions = ({
                       id={i}
                     />
                     <Label
-                      className={`text-[16px] font-normal leading-[22px] ${
-                        preferences?.[currentQuestion.key] != i
+                      className={`text-[16px] font-normal leading-[22px] ${preferences?.[currentQuestion.key] != i
                           ? "text-[#34495D]"
                           : "text-[#3EB87F]"
-                      } `}
+                        } `}
                       htmlFor={i}
                     >
                       {i}
@@ -197,7 +196,7 @@ const PreferencesQuestions = ({
             {/* property Amenties text */}
             {/* <PreferenceChatbotMessageBox text={currentQuestion.text} date="" /> */}
             {/* Property amenities */}
-            <div className=" grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 max-w-[900px]">
+            <div className=" mt-7 flex  flex-wrap max-w-[900px]">
               {currentQuestion?.options?.map((i) => {
                 return (
                   <PreferencesCheckBox
@@ -303,13 +302,12 @@ const PreferencesQuestions = ({
         {currentQuestion?.type == "location" && (
           <div className="mt-7">
             {/* <PreferenceChatbotMessageBox text={currentQuestion.text} date="" /> */}
-            <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-y-10">
+            <div className="mt-7 flex  flex-wrap ">
               <PreferencesSelectBox
                 header="City"
                 data={["Toronto,ON", "Toronto, VA", "Toronto, MN"]}
                 onValueChange={(arg) => {
                   //---------------------------------------
-
                   setPreferences({
                     ...preferences,
                     [currentQuestion.key]: {

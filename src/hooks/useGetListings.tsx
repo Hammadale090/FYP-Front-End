@@ -36,14 +36,18 @@ export function useGetListings(
     setLoading(true);
     let personal;
 
-    let url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&filters[client_profile][id][$eq]=${profileId}&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto&pagination[page]=${page}&pagination[pageSize]=25`;
+    let url = `${
+      process.env.NEXT_PUBLIC_STRAPI_URL
+    }/listings?sort=id:DESC&filters[client_profile][id][$eq]=${profileId}&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto${
+      fetchAll ? "" : `&pagination[page]=${page}&pagination[pageSize]=1`
+    }`;
 
     if (id) {
       url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&filters[client_profile][id][$eq]=${id}&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto&pagination[page]=${page}&pagination[pageSize]=25`;
     }
 
     if (isProfessionalListingFeed) {
-      url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&populate[0]=Gallery&populate[1]=event&pagination[page]=${page}&pagination[pageSize]=6`;
+      url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto&pagination[page]=${page}&pagination[pageSize]=6`;
 
       // if (professionalPreferences?.propertySpecialization) {
       // Object.entries(professionalPreferences.propertySpecialization).forEach(
@@ -68,7 +72,7 @@ export function useGetListings(
 
     if (isFeatured) {
       personal = await fetcher(
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&filters[isFeatured][$eq]=true&pagination[page]=${page}&pagination[pageSize]=25&populate=*`,
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&filters[isFeatured][$eq]=true&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto&pagination[page]=${page}&pagination[pageSize]=25&populate=*`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -87,6 +91,7 @@ export function useGetListings(
       if (fetchAll) {
         url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/listings?sort=id:DESC&filters[client_profile][id][$eq]=${profileId}&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto`;
       }
+
       personal = await fetcher(url, {
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +104,7 @@ export function useGetListings(
         process.env.NEXT_PUBLIC_STRAPI_URL
       }/listings?sort=id:DESC&filters[$or][0][client_profile][id][$null]=true&filters[$or][1][client_profile][id][$ne]=${profileId}${constructSearchQuery(
         preferences
-      )}&pagination[page]=${page}&pagination[pageSize]=6&populate=*`;
+      )}&pagination[page]=${page}&pagination[pageSize]=6&populate[0]=Gallery&populate[1]=event&populate[2]=coverPhoto`;
       console.log({ _url });
       personal = await fetcher(_url, {
         headers: {

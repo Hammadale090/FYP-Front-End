@@ -22,11 +22,10 @@ type Props = {
 
 const LandingPage = ({ user }: Props) => {
     return (
-        <section className='max-md:px-3'>
+        <section className='px-[20px]'>
             <ProfessionalNavbar />
 
             {/* the hero section  */}
-
             <Hero user={user} />
             {/* Trusted Brands */}
             <TrustedBrands />

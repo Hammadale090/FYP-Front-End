@@ -18,7 +18,9 @@ const ExplorePropertyListings = (props: Props) => {
             <div className='flex flex-wrap justify-center md:ml-7' >
                 {
                     data?.map((listing: Listing) => (
-                        <FeedPropertyCard  key={listing?.id} id={listing?.id} title={listing?.attributes?.name} price={listing?.attributes?.price} currency={listing?.attributes?.currency} description={listing?.attributes?.description} banner={listing?.attributes?.Gallery} location={listing?.attributes?.location} featuredClassName />
+                        <div key={listing?.id} className='mx-2 my-2'>
+                            <FeedPropertyCard  id={listing?.id} title={listing?.attributes?.name} price={listing?.attributes?.price} currency={listing?.attributes?.currency} description={listing?.attributes?.description} banner={listing?.attributes?.Gallery} location={listing?.attributes?.location} featuredClassName />
+                        </div>
                     ))
                 }
 

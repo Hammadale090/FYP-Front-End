@@ -34,7 +34,7 @@ const NeighborhoodHighlights: React.FC<Props> = ({ address, selectedTab, showMap
                             const location = results[0].geometry.location;
                             const map = new google.maps.Map(mapRef.current!, {
                                 center: location,
-                                zoom: 15,
+                                zoom: 12,
                             });
 
                             placesService.current = new google.maps.places.PlacesService(map);
@@ -45,14 +45,19 @@ const NeighborhoodHighlights: React.FC<Props> = ({ address, selectedTab, showMap
                                 rankBy: google.maps.places.RankBy.PROMINENCE,
                             };
 
+
+
                             placesService.current.nearbySearch(request, (results, status) => {
+
                                 if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                    console.log("these are the results", results, selectedTab)
                                     const topPlaces = results?.slice(0, 6);
                                     calculateDistances(location, topPlaces);
                                     if (map) {
                                         cleanup = showPlacesOnMap(map, topPlaces);
                                     }
                                 } else {
+                                    setPlaces([])
                                     console.error("Nearby search request failed:", status);
                                 }
                             });

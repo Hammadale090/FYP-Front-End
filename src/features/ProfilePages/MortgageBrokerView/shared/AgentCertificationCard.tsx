@@ -34,13 +34,13 @@ const AgentCertificationCard = ({ id, Add, AddOnclick, AddText, name, issued_by,
                     </div>
                 }
 
-                <div className='flex space-x-5 items-center'>
+                <div className='flex gap-x-[10px] items-center'>
                     <Image src={"/Broker/Cert.svg"} className='w-[24px] h-[24px]' width={500} height={500} alt='certification badge' />
                     <h1 className='text-ravinna text-[16px] font-medium line-clamp-1'>{name ? name : "Certificate Name"}</h1>
                 </div>
 
-                <h1 className='text-black text-[12px] font-medium line-clamp-2'>Issued By: {issued_by ? issued_by : "dummy text"}</h1>
-                <h1 className='text-black text-[12px] font-medium'>Issue Date: {issue_date ? issue_date : "10/11/22"}</h1>
+                <h1 className='text-black text-[12px] font-medium line-clamp-2 ml-[35px]'>Issued By: {issued_by ? issued_by : "dummy text"}</h1>
+                <h1 className='text-black text-[12px] font-medium ml-[35px]'>Issue Date: {issue_date ? issue_date : "10/11/22"}</h1>
 
                 <div className='w-full flex items-center justify-between'>
                     <IconShowcaseBox text='View' width='w-[46%]'  textCN='text-[16px] text-white' textCenter noBorder color='#3EB87F' />

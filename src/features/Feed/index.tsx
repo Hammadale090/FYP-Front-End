@@ -18,6 +18,8 @@ type Props = {};
 const Feed = (props: Props) => {
   const { tab, showFilters } = useContext<any>(FeedContext);
   const { userRole } = useContext<any>(AuthContext);
+
+
   return (
     <>
       {userRole == "user" ? (
@@ -93,7 +95,7 @@ const NormalUserFeed = () => {
 
           {/* shows the feed accordingly to their tabs */}
           {tab === 0 ? (
-            <DefaultFeed  />
+            <DefaultFeed />
           ) : tab === 1 ? (
             <PropertiesFeed />
           ) : tab === 2 ? (

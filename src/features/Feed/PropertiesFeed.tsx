@@ -93,63 +93,66 @@ const PropertiesFeed = (props: Props) => {
     return pages;
   };
 
-  const sortData = (data: Record<string, any[]>, sortingOption: string) => {
-    const sortedData = {}; // Initialize an empty object to hold sorted data for each page
+  const sortedCombinedData = useMemo(() => {
+    const array = [...data];
 
-    // Iterate over each page and sort its data individually
-    for (const [page, pageData] of Object.entries(data)) {
-      switch (sortingOption) {
-        case "name_asc":
-          sortedData[page] = pageData?.slice().sort((a, b) => {
-            const nameA = `${a.attributes.first_name} ${a.attributes.last_name}`;
-            const nameB = `${b.attributes.first_name} ${b.attributes.last_name}`;
-            return nameA.localeCompare(nameB);
-          });
-          break;
-        case "name_desc":
-          sortedData[page] = pageData?.slice().sort((a, b) => {
-            const nameA = `${a.attributes.first_name} ${a.attributes.last_name}`;
-            const nameB = `${b.attributes.first_name} ${b.attributes.last_name}`;
-            return nameB.localeCompare(nameA);
-          });
-          break;
-        case "date_asc":
-          sortedData[page] = pageData
-            ?.slice()
-            .sort(
-              (a, b) =>
-                new Date(a.attributes.createdAt).getTime() -
-                new Date(b.attributes.createdAt).getTime()
-            );
-          break;
-        case "date_desc":
-          sortedData[page] = pageData
-            ?.slice()
-            .sort(
-              (a, b) =>
-                new Date(b.attributes.createdAt).getTime() -
-                new Date(a.attributes.createdAt).getTime()
-            );
-          break;
-        default:
-          sortedData[page] = pageData?.slice();
+    const safeLocaleCompare = (a: any, b: any) => {
+      if (a.attributes?.name && b.attributes?.name) {
+        // Compare by name if both have a name attribute
+        const nameA = a.attributes.name;
+        const nameB = b.attributes.name;
+        return nameA.localeCompare(nameB);
+      } else if (a.attributes?.first_name && a.attributes?.last_name && b.attributes?.first_name && b.attributes?.last_name) {
+        // Compare by full name if both have first_name and last_name
+        const fullNameA = `${a.attributes.first_name} ${a.attributes.last_name}`.trim();
+        const fullNameB = `${b.attributes.first_name} ${b.attributes.last_name}`.trim();
+        return fullNameA.localeCompare(fullNameB);
+      } else {
+        // Handle cases where one or both entries lack the necessary attributes
+        const nameA = a.attributes?.name ?? `${a.attributes?.first_name ?? ''} ${a.attributes?.last_name}`.trim();
+        const nameB = b.attributes?.name ?? `${b.attributes.first_name} ${b.attributes.last_name}`.trim();
+        return nameA.localeCompare(nameB);
       }
+    };
+
+    const getTimeSafe = (date) => (date ? new Date(date).getTime() : 0);
+
+    switch (sortingOption) {
+      case "name_asc":
+        console.log('Sorting by name ascending', array.sort((a, b) => safeLocaleCompare(a, b)));
+        return array.sort((a, b) => safeLocaleCompare(a, b));
+      case "name_desc":
+        console.log('Sorting by name descending');
+        return array.sort((a, b) => safeLocaleCompare(b, a));
+      case "date_asc":
+        console.log('Sorting by date ascending');
+        return array.sort((a, b) =>
+          getTimeSafe(a.attributes?.createdAt) - getTimeSafe(b.attributes?.createdAt)
+        );
+      case "date_desc":
+        console.log('Sorting by date descending');
+        return array.sort((a, b) =>
+          getTimeSafe(b.attributes?.createdAt) - getTimeSafe(a.attributes?.createdAt)
+        );
+      default:
+        console.log('No sorting applied');
+        return array;
     }
+  }, [sortingOption, data]);
 
-    return sortedData; // Return the sorted data in the same format as sortedData
-  };
 
-  const sortedData = useMemo(() => {
-    if (!originalData) return [];
-    if (sortingOption === "default") return originalData;
-    return sortData(originalData, sortingOption);
-  }, [originalData, sortingOption]);
+
 
   return (
     <div>
       {/* the properties feed */}
       <div className="flex flex-wrap justify-center md:justify-start md:gap-8">
-        {sortedData?.[currentPage]?.map((listing: Listing) => (
+        {
+          (sortedCombinedData?.length < 1 && !loading) && (
+            <div className="text-center text-gray-500 text-sm">Sorry, no properties match your preference. Please try adjusting your preference.</div>
+          )
+        }
+        {(myFilters?.propertyType ? sortedCombinedData?.filter(listing => listing?.attributes?.type?.toLowerCase() === myFilters?.propertyType?.toLowerCase()) : sortedCombinedData)?.map((listing: Listing) => (
           <FeedPropertyCard
             key={listing?.id}
             id={listing?.id}
@@ -158,9 +161,10 @@ const PropertiesFeed = (props: Props) => {
             currency={listing?.attributes?.currency}
             description={listing?.attributes?.description}
             banner={
-              !Array.isArray(listing?.attributes?.coverPhoto)
-                ? (listing?.attributes?.coverPhoto?.data ?? listing?.attributes?.coverPhotoFromUrl)
-                : listing?.attributes?.coverPhotoFromUrl
+              (listing?.attributes?.galleryWithUrls && listing?.attributes?.galleryWithUrls?.length > 0) ? listing?.attributes?.galleryWithUrls[0] :
+                !Array.isArray(listing?.attributes?.coverPhoto)
+                  ? (listing?.attributes?.coverPhoto?.data ?? listing?.attributes?.coverPhotoFromUrl)
+                  : listing?.attributes?.coverPhotoFromUrl
             }
             location={listing?.attributes?.location}
             views={listing?.attributes?.views}
@@ -215,9 +219,8 @@ const PropertiesFeed = (props: Props) => {
                   }}
                 >
                   <PaginationLink
-                    className={`border ${
-                      page == currentPage && "bg-[#3EB87F] text-white"
-                    }`}
+                    className={`border ${page == currentPage && "bg-[#3EB87F] text-white"
+                      }`}
                     isActive={page == currentPage}
                   >
                     {page}

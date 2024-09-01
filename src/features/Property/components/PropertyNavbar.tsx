@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select"
 import { FeedContext } from '@/context/FeedContext';
 import { ListingContext } from '@/context/ListingContext';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useRouter } from "next/navigation";
 type Props = {}
 
@@ -29,7 +29,6 @@ const PropertyNavbar = (props: Props) => {
                 {/* sort functionality */}
                 <div className='flex space-x-2 items-center'>
                     {/* sort by text */}
-                    <Link className='border-green-100 border-2 p-2 rounded-[8px] text-[#3EB87F]' href="/dashboard/property/create-property">Create Property</Link>
                     <h1 className='text-[10px] font-medium leading-[14px] text-[#383838]'>
                         Sort by:
                     </h1>

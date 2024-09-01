@@ -73,7 +73,7 @@ const PreferenceChatbotArea = (props: Props) => {
     );
   }
 
-  console.log(currentQuestionIndex,questions?.length)
+
 
   return (
     <div className="md:min-w-[90] relative h-[450px]  rounded-[12px] border border-[#D9D9D9] ">
@@ -170,7 +170,7 @@ const PreferenceChatbotArea = (props: Props) => {
                         );
                       }
                       if (update_status) {
-                        router.push("/dashboard/feed");
+                        router.push("/dashboard/preferences");
                         setLoading(false);
                       }
                       setLoading(false)

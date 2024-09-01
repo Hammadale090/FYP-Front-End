@@ -86,7 +86,7 @@ const ProfessionalSettingsHeader = ({ header }: Props) => {
         if (professional_photo) {
             try {
                 if (setBannerLoader) {
-                    const profileUpdate = await updateProfessionalPic(professional_photo, setBannerLoader, jwt, professionalId)
+                    const profileUpdate = await updateProfessionalPic(professional_photo, setBannerLoader, jwt, professionalId, profileId)
                 }
                 toast({
                     description: "Professional Profile pic changed successfully",

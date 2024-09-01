@@ -11,6 +11,8 @@ import { fetcher } from "@/lib/fetchers";
 import { signIn } from "next-auth/react";
 import { IoCheckmarkCircleOutline, IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { BiLoaderAlt } from "react-icons/bi";
+import { useSearchParams } from 'next/navigation'
+
 type Props = {};
 
 const LogInForm = (props: Props) => {
@@ -23,6 +25,10 @@ const LogInForm = (props: Props) => {
     email: "",
     password: "",
   });
+  const searchParams = useSearchParams()
+  const search = searchParams.get('callbackUrl')
+
+
 
   useEffect(() => {
     // Disable the ability to move back to the previous screen
@@ -86,16 +92,22 @@ const LogInForm = (props: Props) => {
           ),
         });
 
+        let url = "/dashboard/feed"
+
+        if (search && search.startsWith("/accept-invite")) {
+          url = search;
+        }
+
 
         const res = await signIn("credentials", {
           redirect: false,
           email: form.email,
           password: form.password,
-          callbackUrl: "/dashboard/feed",
+          callbackUrl: url,
         });
 
         if (!res?.error) {
-          router.push("/dashboard/feed");
+          router.push(url);
         } else {
           toast({
             variant: "destructive",
@@ -123,7 +135,7 @@ const LogInForm = (props: Props) => {
               Welcome
             </h1>
             <h1 className="font-normal text-[16px] text-[#808191] leading-[24px]">
-              Welcome back! Please enter your details.  
+              Welcome back! Please enter your details.
             </h1>
           </div>
           <div className="flex flex-col space-y-2 mt-10">

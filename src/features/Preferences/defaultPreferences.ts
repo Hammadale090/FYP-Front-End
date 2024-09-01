@@ -557,7 +557,7 @@ export const filters = [
   {
     key: "propertyType",
     text: "Property Type",
-    options: ["Residential", "Luxury", "Commercial", "Mixed-Use"],
+    options: ["Residential", "Luxury", "Commercial", "Mixed-Use",  "Condo", "Apartment"],
     type: "radio",
   },
   {

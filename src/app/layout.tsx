@@ -25,7 +25,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Residence Realm",
+  title: "Ravinna AI frontend",
   description: "Ravinna frontend",
 };
 
@@ -48,10 +48,8 @@ export default function RootLayout({
           <MantineProvider>
             <NextAuthProvider>
               <ContextProvider>
-                <GatewayProvider>
                   {children}
                   <Toaster />
-                </GatewayProvider>
               </ContextProvider>
             </NextAuthProvider>
           </MantineProvider>

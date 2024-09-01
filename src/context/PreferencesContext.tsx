@@ -84,13 +84,12 @@ function PreferencesContextProvider(props: any) {
         }),
       });
 
-      console.log("update response is ", response);
       if (!response.data.id) {
         throw new Error("Failed to update preferences");
       }
       setInitialPreferences(preferences);
       toast({
-        description: "Completed  Successfully",
+        description: "Completed Successfully",
         action: <TiTick className="text-green-500" />,
       });
       return true;

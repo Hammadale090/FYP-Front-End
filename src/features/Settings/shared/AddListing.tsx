@@ -42,6 +42,8 @@ const AddListing = ({ opened, close }: Props) => {
         status: "active"
     })
 
+
+
     const closeAiOpen = () => {
         setAiOpen(false)
     }
@@ -240,8 +242,18 @@ const AddListing = ({ opened, close }: Props) => {
 
                 <div className='mt-4 w-full  flex flex-col space-y-1'>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="picture"> Banner</Label>
-                        <Input onChange={handleFileChange} id="picture" type="file" />
+                        <h1>Banner</h1>
+                        <Label className='px-2 py-2 rounded-md border border-slate-200 w-fit cursor-pointer' htmlFor="picture">
+                            Choose a picture
+                        </Label>
+
+                        <Label className='px-2 py-2 rounded-md border border-slate-200 w-fit' >
+                            {
+                                articleBanner?.name ?? "No file chosen"
+                            }
+                        </Label>
+
+                        <Input className='hidden' onChange={handleFileChange} id="picture" type="file" />
                     </div>
                 </div>
 
@@ -251,7 +263,21 @@ const AddListing = ({ opened, close }: Props) => {
                     <Input name='name'
                         value={form.name}
                         maxLength={100}
-                        onChange={handleChange}
+                        onChange={(e: any) => {
+                            const { name, value } = e.target;
+
+                            // Regular expression to allow only letters and spaces
+                            const lettersOnly = /^[A-Za-z\s]*$/;
+
+                            // Check if the value matches the regular expression
+                            if (lettersOnly.test(value)) {
+                                // Update the form state if validation passes
+                                setForm({
+                                    ...form,
+                                    [name]: value
+                                });
+                            }
+                        }}
                         required
                         className='bg-[#FCFCFC] border border-[#E4E4E4] px-[10px] rounded-[6px] py-[10px] placeholder-gray-500 placeholder-opacity-50 ' placeholder='Enter name of the listing' />
                 </div>
@@ -297,7 +323,21 @@ const AddListing = ({ opened, close }: Props) => {
                         required
                         maxLength={10}
                         value={form.zip}
-                        onChange={handleChange}
+                        onChange={(e: any) => {
+                            const { name, value } = e.target;
+
+                            // Regular expression to allow only digits (0-9)
+                            const digitsOnly = /^[0-9]*$/;
+
+                            // Check if the value matches the regular expression
+                            if (digitsOnly.test(value)) {
+                                // Update the form state if validation passes
+                                setForm({
+                                    ...form,
+                                    [name]: value
+                                });
+                            }
+                        }}
                         className='bg-[#FCFCFC] border border-[#E4E4E4] px-[10px] rounded-[6px] py-[10px] placeholder-gray-500 placeholder-opacity-50 ' placeholder='Enter zip' />
                 </div>
 

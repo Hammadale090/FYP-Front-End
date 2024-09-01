@@ -20,11 +20,11 @@ type Props = {}
 const AgentUpdatePortfolio = (props: Props) => {
     const { jwt } = useContext(AuthContext)
     const [opened, { open, close }] = useDisclosure(false);
-    const [portfolioData, setPortfolioData] = useState([])
     const [portToUpdate, setPortToUpdate] = useState()
-    const { data, loading, allData } = useGetPortfolios()
     const [deleteLoader, setDeleteLoader] = useState<boolean>(false)
     const { toast } = useToast()
+    const { data, loading, allData } = useGetPortfolios()
+    const [portfolioData, setPortfolioData] = useState([])
 
 
 

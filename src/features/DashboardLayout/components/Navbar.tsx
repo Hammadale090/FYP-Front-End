@@ -1,33 +1,32 @@
 "use client";
-import Image from 'next/image'
-import React, { useContext, useState } from 'react'
-import { Avatar, Input, rem } from '@mantine/core';
+import Image from "next/image";
+import React, { useContext, useState } from "react";
+import { Avatar, Input, rem } from "@mantine/core";
 import { CiSearch } from "react-icons/ci";
-import NavbarBell from './NavbarBell';
-import { useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import NavbarBell from "./NavbarBell";
+import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import { LogoutSvg, ProfileSvg, SettingsSvg } from '../svgs';
-import { AuthContext } from '@/context/AuthContext';
-import { BiLoaderAlt } from 'react-icons/bi';
-import { usePathname } from 'next/navigation';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { LogoutSvg, ProfileSvg, SettingsSvg } from "../svgs";
+import { AuthContext } from "@/context/AuthContext";
+import { BiLoaderAlt } from "react-icons/bi";
+import { usePathname } from "next/navigation";
+import { ProfSettingsContext } from "@/context/ProfSettingsContext";
 
-
-type Props = {}
+type Props = {};
 
 const Navbar = (props: Props) => {
     const router = useRouter()
     const { profile, user, profilepic, userRole } = useContext(AuthContext)
+    const { profDetails } = useContext(ProfSettingsContext)
     const SearchIcon = <CiSearch style={{ width: rem(16), height: rem(16) }} />;
     const [logOutLoader, setLogoutLoader] = useState(false)
     const pathname = usePathname();
     // console.log("this is the userRole", userRole)
-
-    console.log("this is the pathname", pathname)
 
 
     return (
@@ -36,7 +35,7 @@ const Navbar = (props: Props) => {
                 {/* The logo */}
                 <Image onClick={() => {
                     router.push("/dashboard")
-                }} src={"/Dashboard/RR.png"} alt='Logo' height={1000} width={1000} className='max-w-[60px] max-h-[45px] cursor-pointer hidden md:inline-flex' />
+                }} src={"/Dashboard/Logo.png"} alt='Logo' height={1000} width={1000} className='max-w-[60px] max-h-[45px] cursor-pointer hidden md:inline-flex' />
 
                 {/* the menubar for mobile view */}
                 <Image src={"/Feed/Menu.svg"} alt='mobile view' height={500} width={500} className='md:hidden w-[18px] h-[14px]' />
@@ -62,7 +61,7 @@ const Navbar = (props: Props) => {
                             <div className=' flex-col hidden md:flex items-start'>
                                 {/* the user name */}
                                 <h1 className='font-semibold text-[14px] leading-[19.12px] text-[#11142D]'>
-                                    {profile?.attributes?.first_name || profile?.attributes?.last_name
+                                    {profDetails?.full_name ? profDetails?.full_name : profile?.attributes?.first_name || profile?.attributes?.last_name
                                         ? `${profile?.attributes?.first_name} ${profile?.attributes?.last_name}`
                                         : user?.data?.attributes?.username}
                                 </h1>
@@ -94,8 +93,8 @@ const Navbar = (props: Props) => {
                         <div onClick={() => {
                             router.push("/settings")
                         }} className='flex space-x-3 px-3 items-center cursor-pointer'>
-                            <SettingsSvg />
-                            <h1 className='text-[14px] font-normal leading-[22px] text-[#808191]'>Settings</h1>
+                            <SettingsSvg green={pathname === "/settings"} />
+                            <h1 className={`text-[14px] font-normal leading-[22px] ${pathname === "/settings" ? "text-[#3EB87F]" : "text-[#808191]"}`}>Settings</h1>
                         </div>
                         {/* The logout button */}
                         <div onClick={async () => {
@@ -111,12 +110,9 @@ const Navbar = (props: Props) => {
                         </div>
                     </PopoverContent>
                 </Popover>
+      </div>
+    </section>
+  );
+};
 
-
-            </div>
-
-        </section>
-    )
-}
-
-export default Navbar
+export default Navbar;

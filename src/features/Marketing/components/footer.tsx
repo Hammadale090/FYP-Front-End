@@ -97,7 +97,7 @@ const Footer = (props: Props) => {
         <footer className='max-w-[1200px] mx-auto my-20 px-[18px]'>
             <div className='flex max-lg:flex-col max-lg:space-y-2 lg:justify-between lg:items-center'>
                 <Image src={"/Dashboard/Logo.png"} alt='Logo' height={1500} width={1500} className='max-w-[110px] w-full h-full max-h-[83px]' />
-                <h1 className='text-[16px] font-normal leading-[26px] text-[#34495D] max-w-[570px]'>Residence realm is a powerful platform that lets you run a residential or commercial rental business online with no hassle</h1>
+                <h1 className='text-[16px] font-normal leading-[26px] text-[#34495D] max-w-[570px]'>Nesti is a powerful platform that lets you run a residential or commercial rental business online with no hassle</h1>
             </div>
 
             <Divider my="sm" />
@@ -142,19 +142,19 @@ const Footer = (props: Props) => {
                     <h1 className='mb-7 text-ravinna text-[24px] leading-[34px] font-normal'>Contact Us</h1>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/location.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>142 Bay Rd, Miami Beach, Faisalabad</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>142 Bay Rd, Miami Beach, FL 33139</h1>
                     </div>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/Call.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>0302-6689292</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>000 000 0000</h1>
                     </div>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/Phone.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>+923026689292</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>+0 000 000 000</h1>
                     </div>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/Mail.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>mariammujahid4@gmailcom</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>email1234@email.com</h1>
                     </div>
                 </div>
 

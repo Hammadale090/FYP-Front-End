@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Rating } from "@mantine/core";
+
 import { AuthContext } from "@/context/AuthContext";
 import { updateProfileAccount } from "@/features/Settings/functions";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
@@ -15,6 +15,10 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { MessageContext } from "@/context/MessageContext";
 import createChatRoom from "@/lib/chat/createChatRoom";
+import { useDisclosure } from "@mantine/hooks";
+import Rating from "@/features/Property/components/Rating";
+import FeedRating from "@/features/Property/components/FeedRating";
+import PropertyViewed from "./PropertyViewed";
 
 type Props = {
   id?: number;
@@ -60,6 +64,7 @@ const FeedBrokerRealtorCard = ({
   const [loader, setLoader] = useState<boolean>(false);
   const [chatloader, setChatLoader] = useState<boolean>(false);
   const { toast } = useToast();
+  const [opened, { open, close }] = useDisclosure(false);
   const { setSelectedChatroom } = useContext<any>(MessageContext);
 
   // Initialize favouritess with an empty array if initialFavourites is null
@@ -255,8 +260,12 @@ const FeedBrokerRealtorCard = ({
                 {(firstname + " " + lastname)?.slice(0, 15) +
                   ((firstname + " " + lastname)?.length > 15 ? "..." : "")}
               </h1>
+
               {/* the rating */}
-              <div className="flex items-center space-x-1">
+              <FeedRating
+                slug={`${userId}`}
+              />
+              {/* <div className="flex items-center space-x-1">
                 <Image
                   src={"/Feed/Star.svg"}
                   className="h-[16px] w-[16px]"
@@ -267,7 +276,7 @@ const FeedBrokerRealtorCard = ({
                 <h1 className="text-black font-normal leading-[22px] text-[16px] ">
                   4.8(12)
                 </h1>
-              </div>
+              </div> */}
             </div>
 
             {/* the description of the profile */}
@@ -365,7 +374,7 @@ const FeedBrokerRealtorCard = ({
                   Contact
                 </div>
                 <div
-                  // onClick={() => router.push(`/preferences/${userId}`)}
+                  onClick={() => router.push(`/dashboard/preferences`)}
                   className=" w-full md:w-[48%] mb-2 h-[38px] border-[1px] border-black text-[16px] font-normal  rounded-[6px] flex flex-col justify-center items-center"
                 >
                   Preferences
@@ -375,11 +384,7 @@ const FeedBrokerRealtorCard = ({
               {/* view details button */}
               <div
                 onClick={() =>
-                  router.push(
-                    realtor
-                      ? `/realtor/${userId}`
-                      : `/mortgage-broker/${userId}`
-                  )
+                  open()
                 }
                 className="w-full  h-[38px] text-white text-[16px] font-normal bg-[#3EB87F] rounded-[6px] flex flex-col justify-center items-center"
               >
@@ -388,6 +393,10 @@ const FeedBrokerRealtorCard = ({
             </div>
           </>
         )}
+
+
+        <PropertyViewed close={close} opened={opened} />
+
       </div>
     </div>
   );

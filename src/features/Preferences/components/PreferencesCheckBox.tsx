@@ -17,7 +17,7 @@ const PreferencesCheckBox = ({
   onClick,
 }: Props) => {
   return (
-    <div className={`flex items-center space-x-4 ${checkBoxStyles}`}>
+    <div className={`flex items-center mx-4 my-4 space-x-3 ${checkBoxStyles}`}>
       <Checkbox
         id={`${text}`}
         checked={checked} // Set the checked state of the checkbox

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import FeedPropertyCard from "./FeedPropertyCard";
 import { useGetListings } from "@/hooks/useGetListings";
 import { Listing } from "@/context/types";
 import { BiLoaderAlt } from "react-icons/bi";
+import { FeedContext } from "@/context/FeedContext";
 
 type Props = {
   isFeatured: boolean;
@@ -13,6 +14,8 @@ const FeaturedPropertyListing = ({ isFeatured }: Props) => {
   const { data, loading, allData, allIds, getListings, shouldHideViewAll } =
     useGetListings(false, null, isFeatured);
 
+  const { myFilters } =
+    useContext<any>(FeedContext);
 
 
   return (
@@ -41,7 +44,7 @@ const FeaturedPropertyListing = ({ isFeatured }: Props) => {
       {/* the featured property listing cards */}
       <ScrollArea className=" rounded-md overflow-y-hidden py-4 p-0 mt-4 w-full">
         <div className="flex  justify-center md:justify-start md:gap-8">
-          {data?.map((listing: Listing) => (
+          {(myFilters?.propertyType ? data?.filter(listing => listing?.attributes?.type?.toLowerCase() === myFilters?.propertyType?.toLowerCase()) : data)?.map((listing: Listing) => (
             <FeedPropertyCard
               key={listing?.id}
               id={listing?.id}

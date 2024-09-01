@@ -63,6 +63,34 @@ const updateProperty = async (jwt: any, id: any, data: any) => {
   }
 };
 
+const updateViews = async (jwt: any, id: any, profileId: any) => {
+  try {
+    const data = {
+      properties_viewed: {
+        connect: [id],
+      },
+    };
+
+    const res = await fetcher(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/client-profiles/${profileId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+          data: data,
+        }),
+        method: 'PUT',
+      }
+    );
+    console.log('added view');
+    return res;
+  } catch (err) {
+    console.error('An error occured');
+  }
+};
+
 async function uploadImage(jwt: any, picture: File | File[]) {
   const files = Array.isArray(picture) ? picture : [picture];
 
@@ -104,7 +132,6 @@ async function destroyImage(jwt: any, id: any | null) {
           },
         }
       );
-
       return response.data;
     } catch (error) {
       console.log('error is ', error);
@@ -166,4 +193,5 @@ export {
   uploadImage,
   destroyImage,
   uploadImageByUrl,
+  updateViews,
 };

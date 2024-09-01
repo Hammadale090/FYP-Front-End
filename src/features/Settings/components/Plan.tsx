@@ -29,7 +29,8 @@ const Plan = ({ id, header, price, white, benifits }: Props) => {
         productName: header,
         customerEmail: profileEmail,
         planId: id,
-        callbackURL: `/dashboard/feed`,
+        success_url: `${window.location.origin}/dashboard/feed`,
+        cancel_url: `${window.location.href}`,
       });
       setIsPending(false);
       if (data?.url) {
@@ -53,11 +54,14 @@ const Plan = ({ id, header, price, white, benifits }: Props) => {
       }
     }
   };
+  console.log("profile is ", profile);
 
   return (
     <div
-      className={`h-[525px] py-7 w-[90vw] md:w-[320px] border relative  ${
-        white ? "bg-white border-[#34495D]" : "bg-[#3EB87F] border-white"
+      className={`h-[525px] py-7 w-[90vw] md:w-[320px] border relative group  ${
+        white
+          ? "bg-white border-[#34495D] hover:bg-[#3EB87F] hover:border-white"
+          : "bg-[#3EB87F] border-white"
       }   rounded-[10px]`}
     >
       {/* Tril button */}
@@ -80,14 +84,14 @@ const Plan = ({ id, header, price, white, benifits }: Props) => {
       <div className="flex flex-col">
         <h1
           className={`text-[60px] font-semibold text-center ${
-            white ? "text-[#3EB87F]" : "text-white"
+            white ? "text-[#3EB87F] group-hover:text-white" : "text-white"
           } h-[70px]`}
         >
           {parseInt(price) == 0 ? `Free` : `£${price}`}
         </h1>
         <h1
           className={`text-[15px] font-semibold text-center mt-2 ${
-            white ? "text-[#34495D]" : "text-white"
+            white ? "text-[#34495D] group-hover:text-white" : "text-white"
           } `}
         >
           user/month
@@ -108,12 +112,12 @@ const Plan = ({ id, header, price, white, benifits }: Props) => {
       >
         <div
           className={` ${
-            white ? "bg-[#C3FFE3]" : "bg-[#34495D]"
+            white ? "bg-[#C3FFE3] group-hover:bg-[#34495D]" : "bg-[#34495D] "
           } rounded-[10px] h-[55px] w-[231px] flex flex-col justify-center items-center `}
         >
           <h1
             className={`text-[20px] font-medium ${
-              white ? "text-[#34495D]" : "text-white"
+              white ? "text-[#34495D] group-hover:text-[#FFF]" : "text-white"
             } `}
           >
             Choose Plan

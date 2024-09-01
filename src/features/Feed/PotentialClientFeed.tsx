@@ -64,47 +64,58 @@ const PotentailClientFeed = () => {
     setPages(getPageArray(currentPage, pagination?.pageCount));
   }, [pagination?.pageCount, currentPage]);
 
-  const sortData = (data: any[], sortingOption: string) => {
+  const sortedCombinedData = useMemo(() => {
+    const array = [...paginatedData[currentPage]];
+
+    const safeLocaleCompare = (a: any, b: any) => {
+      if (a.attributes?.name && b.attributes?.name) {
+        // Compare by name if both have a name attribute
+        const nameA = a.attributes.name;
+        const nameB = b.attributes.name;
+        return nameA.localeCompare(nameB);
+      } else if (a.attributes?.first_name && a.attributes?.last_name && b.attributes?.first_name && b.attributes?.last_name) {
+        // Compare by full name if both have first_name and last_name
+        const fullNameA = `${a.attributes.first_name} ${a.attributes.last_name}`.trim();
+        const fullNameB = `${b.attributes.first_name} ${b.attributes.last_name}`.trim();
+        return fullNameA.localeCompare(fullNameB);
+      } else {
+        // Handle cases where one or both entries lack the necessary attributes
+        const nameA = a.attributes?.name ?? `${a.attributes?.first_name ?? ''} ${a.attributes?.last_name}`.trim();
+        const nameB = b.attributes?.name ?? `${b.attributes.first_name} ${b.attributes.last_name}`.trim();
+        return nameA.localeCompare(nameB);
+      }
+    };
+
+    const getTimeSafe = (date) => (date ? new Date(date).getTime() : 0);
+
     switch (sortingOption) {
       case "name_asc":
-        return data
-          .slice()
-          .sort((a, b) =>
-            a?.attributes?.first_name?.localeCompare(b?.attributes?.first_name)
-          );
+        console.log('Sorting by name ascending', array.sort((a, b) => safeLocaleCompare(a, b)));
+        return array.sort((a, b) => safeLocaleCompare(a, b));
       case "name_desc":
-        return data
-          .slice()
-          .sort((a, b) =>
-            b?.attributes?.first_name?.localeCompare(a?.attributes?.first_name)
-          );
+        console.log('Sorting by name descending');
+        return array.sort((a, b) => safeLocaleCompare(b, a));
       case "date_asc":
-        return data.sort(
-          (a, b) =>
-            new Date(a.attributes?.createdAt).getTime() -
-            new Date(b.attributes?.createdAt).getTime()
+        console.log('Sorting by date ascending');
+        return array.sort((a, b) =>
+          getTimeSafe(a.attributes?.createdAt) - getTimeSafe(b.attributes?.createdAt)
         );
       case "date_desc":
-        return data.sort(
-          (a, b) =>
-            new Date(b.attributes?.createdAt).getTime() -
-            new Date(a.attributes?.createdAt).getTime()
+        console.log('Sorting by date descending');
+        return array.sort((a, b) =>
+          getTimeSafe(b.attributes?.createdAt) - getTimeSafe(a.attributes?.createdAt)
         );
       default:
-        return data.slice();
+        console.log('No sorting applied');
+        return array;
     }
-  };
-  const sortedData = useMemo(() => {
-    if (!paginatedData || !paginatedData[currentPage]) return [];
-    if (sortingOption === "default") return paginatedData[currentPage];
-    return sortData(paginatedData[currentPage], sortingOption);
-  }, [paginatedData, currentPage, sortingOption]);
+  }, [sortingOption, data]);
 
   return (
     <div>
       {/* the client cards */}
       <div className="flex flex-wrap justify-center md:justify-start md:gap-8">
-        {sortedData.map((client: Profile) => {
+        {sortedCombinedData.map((client: Profile) => {
           console.log(client);
           return (
             <FeedBrokerRealtorCard

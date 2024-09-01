@@ -5,22 +5,20 @@ import { ProfSettingsContext } from '@/context/ProfSettingsContext';
 
 
 export function useGetReviews(id: string | string[], sort = "DESC") {
-    const { profileId, jwt } = useContext(AuthContext)
-    const { reviewsLoader, data, setData } = useContext(ProfSettingsContext)
-    const [allIds, setAllIds] = useState(new Set());
-    const [allData, setAllData] = useState<any>();
+    const { jwt } = useContext(AuthContext);
     const [loading, setLoading] = useState<boolean>(false);
+    const { reviewsLoader } = useContext(ProfSettingsContext)
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         async function getReviews() {
-
             setLoading(true);
             if (!id) {
-                setData([])
+                setData([]);
                 setLoading(false);
                 return;
             }
-            let url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/reviews?sort=id:${sort}&filters[professional][id][$eq]=${id}&sort=id:DESC&populate[0]=client_profile.profile_pic&populate[1]=client_profile.user`
+            const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/reviews?sort=id:${sort}&filters[professional][id][$eq]=${id}&sort=id:DESC&populate[0]=client_profile.profile_pic&populate[1]=client_profile.user`;
 
             const personal = await fetcher(
                 url,
@@ -32,23 +30,19 @@ export function useGetReviews(id: string | string[], sort = "DESC") {
                 }
             );
 
-            if (personal?.data) {
-                await setData(personal?.data);
-                setAllData(personal);
-                const updatedSet = new Set(allIds);
-                await personal?.data?.map(async (dat: any) => {
-                    await updatedSet?.add(dat?.id);
-                });
-                setAllIds(updatedSet);
-            }
-
+            // console.log("this is the personal", personal)
+            setData(personal?.data || []);
             setLoading(false);
         }
 
-        if (jwt && profileId) {
+        if (jwt) {
             getReviews();
         }
-    }, [profileId, reviewsLoader, id, sort]);
+    }, [id, sort, jwt, reviewsLoader]);
 
-    return { data, loading, allData, allIds };
+    return { data, loading };
 }
+
+
+// return { data, loading, allData, allIds };
+

@@ -6,13 +6,14 @@ import { useDisclosure } from '@mantine/hooks';
 import React, { useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi';
 import AddListing from '../shared/AddListing';
-
+import { useRouter } from 'next/navigation';
 type Props = {}
 
 const AgentProfListings = (props: Props) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [listingsData, setListingsData] = useState([])
     const { data, loading, allData } = useGetListings()
+    const router = useRouter();
 
     useEffect(() => {
         const loadData = () => {
@@ -33,12 +34,15 @@ const AgentProfListings = (props: Props) => {
                 <h1 className='text-[#11142D] text-[20px] font-bold leading-normal'>Active Listing</h1>
             </div>
 
+
             {/* the listings */}
             <div className='max-md:flex max-md:flex-wrap max-md:justify-center md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-4' >
-                <FeedPropertyCard featuredClassName Add Addtext='Add New Listing' AddOnclick={open} />
+                <FeedPropertyCard featuredClassName Add Addtext='Add New Listing' AddOnclick={() => {
+                    router.push("/dashboard/property/create-property")
+                }} />
                 {
                     listingsData?.map((listing: Listing) => (
-                        <FeedPropertyCard bannerTrue key={listing?.id} id={listing?.id} banner={listing?.attributes?.Gallery} title={listing?.attributes?.name} description={listing.attributes.description} location={listing.attributes.location} price={listing.attributes.price}  currency={listing.attributes.currency} featuredClassName />
+                        <FeedPropertyCard bannerTrue key={listing?.id} id={listing?.id} banner={listing?.attributes?.Gallery} title={listing?.attributes?.name} description={listing.attributes.description} location={listing.attributes.location} price={listing.attributes.price} currency={listing.attributes.currency} featuredClassName />
                     ))
                 }
             </div >

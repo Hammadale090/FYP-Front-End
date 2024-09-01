@@ -58,7 +58,8 @@ export const updateProfessionalPic = async (
   image: any,
   setLoader: React.Dispatch<React.SetStateAction<boolean>>,
   jwt: any,
-  profileId: any
+  profileId: any,
+  clientId:any
 ) => {
   if (image) {
     setLoader(true);
@@ -80,6 +81,9 @@ export const updateProfessionalPic = async (
         const data = {
           professional_photo: response.data[0].id,
         };
+        const data1 = {
+          profile_pic: response.data[0].id,
+        };
         const res = await fetcher(
           `${process.env.NEXT_PUBLIC_STRAPI_URL}/professional-profiles/${profileId}`,
           {
@@ -89,6 +93,19 @@ export const updateProfessionalPic = async (
             },
             body: JSON.stringify({
               data: data,
+            }),
+            method: 'PUT',
+          }
+        );
+        const res1 = await fetcher(
+          `${process.env.NEXT_PUBLIC_STRAPI_URL}/client-profiles/${clientId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({
+              data: data1,
             }),
             method: 'PUT',
           }
@@ -252,6 +269,28 @@ export const deleteEduArticles = async (
   try {
     const response = await axios.delete(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/articles/${id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (err) {
+    console.error('Error at Delete Document: ', err);
+  }
+};
+
+
+export const deleteServ = async (
+  id: number | string | undefined,
+  jwt: any
+) => {
+  try {
+    const response = await axios.delete(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/services/${id}`,
       {
         headers: {
           'Content-Type': 'application/json',

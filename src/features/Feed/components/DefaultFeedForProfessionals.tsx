@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -22,11 +22,14 @@ const DefaultFeedForProfessionals = () => {
 
   const properties = useGetListings(true, '', false, false);
   const potentialClients = useGetPotentialClient()
-
+  const { sortingOption } = useContext<any>(FeedContext);
   const [currentPage, setCurrentPage] = useState<any>();
   const [data, setData] = useState<any>([]);
   const [pageCount, setPageCount] = useState<any>();
   const [pages, setPages] = useState<any>([]);
+  const { myFilters } =
+    useContext<any>(FeedContext);
+  // const [originalCombinedData, setOriginalCombinedData] = useState([]);
 
   useEffect(() => {
     const updatedPage = Math.max(
@@ -64,6 +67,52 @@ const DefaultFeedForProfessionals = () => {
     properties.paginatedData
   ]);
 
+  const sortedCombinedData = useMemo(() => {
+    const array = [...data];
+
+    const safeLocaleCompare = (a: any, b: any) => {
+      if (a.attributes?.name && b.attributes?.name) {
+        // Compare by name if both have a name attribute
+        const nameA = a.attributes.name;
+        const nameB = b.attributes.name;
+        return nameA.localeCompare(nameB);
+      } else if (a.attributes?.first_name && a.attributes?.last_name && b.attributes?.first_name && b.attributes?.last_name) {
+        // Compare by full name if both have first_name and last_name
+        const fullNameA = `${a.attributes.first_name} ${a.attributes.last_name}`.trim();
+        const fullNameB = `${b.attributes.first_name} ${b.attributes.last_name}`.trim();
+        return fullNameA.localeCompare(fullNameB);
+      } else {
+        // Handle cases where one or both entries lack the necessary attributes
+        const nameA = a.attributes?.name ?? `${a.attributes?.first_name ?? ''} ${a.attributes?.last_name}`.trim();
+        const nameB = b.attributes?.name ?? `${b.attributes.first_name} ${b.attributes.last_name}`.trim();
+        return nameA.localeCompare(nameB);
+      }
+    };
+
+    const getTimeSafe = (date) => (date ? new Date(date).getTime() : 0);
+
+    switch (sortingOption) {
+      case "name_asc":
+        console.log('Sorting by name ascending', array.sort((a, b) => safeLocaleCompare(a, b)));
+        return array.sort((a, b) => safeLocaleCompare(a, b));
+      case "name_desc":
+        console.log('Sorting by name descending');
+        return array.sort((a, b) => safeLocaleCompare(b, a));
+      case "date_asc":
+        console.log('Sorting by date ascending');
+        return array.sort((a, b) =>
+          getTimeSafe(a.attributes?.createdAt) - getTimeSafe(b.attributes?.createdAt)
+        );
+      case "date_desc":
+        console.log('Sorting by date descending');
+        return array.sort((a, b) =>
+          getTimeSafe(b.attributes?.createdAt) - getTimeSafe(a.attributes?.createdAt)
+        );
+      default:
+        console.log('No sorting applied');
+        return array;
+    }
+  }, [sortingOption, data]);
 
   function handleGoToPage(updatedPage) {
     const potentialClientsData =
@@ -142,8 +191,8 @@ const DefaultFeedForProfessionals = () => {
     <div>
       {/* the Default feed showing them all  */}
       <div className="flex flex-wrap justify-center md:justify-start md:gap-8">
-        {data.map((i, index) => {
-          return i?.type === "property" ? (
+        {sortedCombinedData.map((i, index) => {
+          return (i?.type === "property" && (!myFilters?.propertyType || (i?.attributes?.type?.toLowerCase() === myFilters?.propertyType?.toLowerCase()))) ? (
             <FeedPropertyCard
               key={index}
               id={i?.id}

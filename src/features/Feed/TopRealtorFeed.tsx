@@ -77,7 +77,6 @@ const TopRealtorFeed = (props: Props) => {
   }, [paginatedData]);
 
   const sortData = (data: Record<string, any[]>, sortingOption: string) => {
-    console.log("Receive Data at Sorting++: ", data);
     const sortedData = {}; // Initialize an empty object to hold sorted data for each page
 
     // Iterate over each page and sort its data individually

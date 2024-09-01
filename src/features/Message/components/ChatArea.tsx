@@ -40,8 +40,8 @@ const ChatArea = (props: Props) => {
   } = useContext<any>(MessageContext);
   const { userId } = useContext<any>(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [hideCloseChatOption,setHideCloseChatOption]=useState({})
-  const [isChatRoomClosed, setIsChatRoomClosed] = useState(false);
+  const [ShowCloseChatModal, setShowCloseChatModal] = useState(false);
+  const [isChatRoomClosed, setIsChatRoomClosed] = useState(true);
 
   //get chatrooms
   useEffect(() => {
@@ -86,6 +86,7 @@ const ChatArea = (props: Props) => {
         }));
 
         setSelectedChatRoomMessages(messages);
+
         setIsChatRoomClosed(
           selectedChatroom?.participantsDetail.filter(
             (participant: any) => participant.userId == userId
@@ -94,12 +95,12 @@ const ChatArea = (props: Props) => {
       }
     );
 
-   async function CloseChatOptionVisibility(){
-    // @ts-ignore
-    const shouldHide=await sessionStorage.getItem([selectedChatroom.id])
-    setHideCloseChatOption(shouldHide?true:false)
-   }
-   CloseChatOptionVisibility()
+    // async function CloseChatOptionVisibility() {
+    //   // @ts-ignore
+    //   const shouldHide = await sessionStorage.getItem([selectedChatroom.id]);
+    //   setShowCloseChatModal(shouldHide ? false : true);
+    // }
+    // CloseChatOptionVisibility();
     return unsubscribe;
   }, [selectedChatroom]);
 
@@ -219,6 +220,9 @@ const ChatArea = (props: Props) => {
                 )[0].image
               }
               chatRoomId={selectedChatroom.id}
+              ShowCloseChatModal={ShowCloseChatModal}
+              setShowCloseChatModal={setShowCloseChatModal}
+              isChatRoomClosed={isChatRoomClosed}
             />
 
             <ChatBox
@@ -226,35 +230,41 @@ const ChatArea = (props: Props) => {
               userId={userId}
             />
             {/*are you sure you want to close this conversation */}
-            {!isChatRoomClosed &&(
+            {!isChatRoomClosed && (
               <>
-                {!hideCloseChatOption &&<div className="w-[636px]  ml-10 mr-7 rounded-[11px] border border-[#34495D] py-7 mb-6">
-                  <h1 className="text-center font-medium leading-[34px] text-[16px] text-[#34495D]">
-                    Are sure you want to close this conversation?
-                  </h1>
-                  <div className="flex justify-center space-x-2">
-                    <div
-                      className="w-[201px] cursor-pointer h-[38px] rounded-[6px] border border-[#3EB87F] flex flex-col justify-center items-center bg-[#3EB87F] text-white text-[16px] font-normal"
-                      onClick={async () => {
-                        const res = await closeChat(
-                          selectedChatroom.id,
-                          userId
-                        );
-                        res.success && setIsChatRoomClosed(true);
-                      }}
-                    >
-                      Yes, close from my side
-                    </div>
+                {ShowCloseChatModal && (
+                  <div className="w-[636px]  ml-10 mr-7 rounded-[11px] border border-[#34495D] py-7 mb-6">
+                    <h1 className="text-center font-medium leading-[34px] text-[16px] text-[#34495D]">
+                      Are sure you want to close this conversation?
+                    </h1>
+                    <div className="flex justify-center space-x-2">
+                      <div
+                        className="w-[201px] cursor-pointer h-[38px] rounded-[6px] border border-[#3EB87F] flex flex-col justify-center items-center bg-[#3EB87F] text-white text-[16px] font-normal"
+                        onClick={async () => {
+                          const res = await closeChat(
+                            selectedChatroom.id,
+                            userId
+                          );
+                          res.success && setIsChatRoomClosed(true);
+                        }}
+                      >
+                        Yes, close from my side
+                      </div>
 
-                    <div className="w-[201px] cursor-pointer h-[38px] rounded-[6px] border border-[#191B1E] flex flex-col justify-center items-center  text-[#191B1E] text-[16px] font-normal" onClick={()=>{
-                      // @ts-ignore
-                      sessionStorage.setItem([selectedChatroom?.id], true)
-                      setHideCloseChatOption(true)
-                    }}>
-                      No, Not yet
+                      <div
+                        className="w-[201px] cursor-pointer h-[38px] rounded-[6px] border border-[#191B1E] flex flex-col justify-center items-center  text-[#191B1E] text-[16px] font-normal"
+                        onClick={() => {
+                          // @ts-ignore
+                          // sessionStorage.setItem([selectedChatroom?.id], true);
+                          // setShowCloseChatModal(true);
+                          setShowCloseChatModal(false);
+                        }}
+                      >
+                        No, Not yet
+                      </div>
                     </div>
                   </div>
-                </div>}
+                )}
 
                 <ChatInput
                   selectedChatroom={selectedChatroom.id}
@@ -280,6 +290,9 @@ const ChatArea = (props: Props) => {
                 )[0].id
               }
               chatRoomId={selectedChatroom.id}
+              ShowCloseChatModal={ShowCloseChatModal}
+              setShowCloseChatModal={setShowCloseChatModal}
+              isChatRoomClosed={isChatRoomClosed}
             />
 
             <ChatBox
@@ -289,33 +302,39 @@ const ChatArea = (props: Props) => {
             {/*are you sure you want to close this conversation */}
             {!isChatRoomClosed && (
               <>
-                {!hideCloseChatOption &&<div className="w-full md:w-[636px] md:ml-10 md:mr-7 rounded-[11px] border border-[#34495D] py-7 mb-6">
-                  <h1 className="text-center font-medium leading-[34px] text-[16px] text-[#34495D]">
-                    Are sure you want to close this conversation?
-                  </h1>
-                  <div className="flex justify-center space-x-2">
-                    <div
-                      className="w-fit px-2 py-2 md:w-[201px] cursor-pointer  rounded-[6px] border border-[#3EB87F] flex flex-col justify-center items-center bg-[#3EB87F] text-white text-[16px] font-normal"
-                      onClick={async () => {
-                        const res = await closeChat(
-                          selectedChatroom.id,
-                          userId
-                        );
-                        res.success && setIsChatRoomClosed(true);
-                      }}
-                    >
-                      Yes, close from my side
-                    </div>
+                {ShowCloseChatModal && (
+                  <div className="w-full md:w-[636px] md:ml-10 md:mr-7 rounded-[11px] border border-[#34495D] py-7 mb-6">
+                    <h1 className="text-center font-medium leading-[34px] text-[16px] text-[#34495D]">
+                      Are sure you want to close this conversation?
+                    </h1>
+                    <div className="flex justify-center space-x-2">
+                      <div
+                        className="w-fit px-2 py-2 md:w-[201px] cursor-pointer  rounded-[6px] border border-[#3EB87F] flex flex-col justify-center items-center bg-[#3EB87F] text-white text-[16px] font-normal"
+                        onClick={async () => {
+                          const res = await closeChat(
+                            selectedChatroom.id,
+                            userId
+                          );
+                          res.success && setIsChatRoomClosed(true);
+                        }}
+                      >
+                        Yes, close from my side
+                      </div>
 
-                    <div className="w-fit px-2 md:w-[201px] cursor-pointer rounded-[6px] border border-[#191B1E] flex flex-col justify-center items-center  text-[#191B1E] text-[16px] font-normal" onClick={()=>{
-                      // @ts-ignore
-                      sessionStorage.setItem([selectedChatroom.id], true)
-                      setHideCloseChatOption(true)
-                    }}>
-                      No, Not yet
+                      <div
+                        className="w-fit px-2 md:w-[201px] cursor-pointer rounded-[6px] border border-[#191B1E] flex flex-col justify-center items-center  text-[#191B1E] text-[16px] font-normal"
+                        onClick={() => {
+                          // @ts-ignore
+                          // sessionStorage.setItem([selectedChatroom.id], true);
+                          // setShowCloseChatModal(true);
+                          setShowCloseChatModal(false);
+                        }}
+                      >
+                        No, Not yet
+                      </div>
                     </div>
                   </div>
-                </div>}
+                )}
 
                 <ChatInput
                   selectedChatroom={selectedChatroom.id}

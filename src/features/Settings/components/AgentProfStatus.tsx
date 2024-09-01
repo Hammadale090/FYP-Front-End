@@ -13,7 +13,7 @@ interface DonutChartDataSlice {
 type Props = {
     header: string;
     data: DonutChartDataSlice[]; // Array of DonutChartDataSlice objects
-    amount: string
+    amount: string | number
 };
 
 

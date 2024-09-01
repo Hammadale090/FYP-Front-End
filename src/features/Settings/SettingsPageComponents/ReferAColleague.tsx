@@ -9,6 +9,9 @@ import { AuthContext } from '@/context/AuthContext'
 import { uploadRefferelCodeToDb } from '../functions'
 import copy from 'clipboard-copy';
 import { useToast } from '@/components/ui/use-toast'
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { BiLoaderAlt } from 'react-icons/bi';
 
 
 type Props = {}
@@ -23,7 +26,22 @@ const ReferAColleague = (props: Props) => {
     const [KeywordsPreferences, setKeywordsPreferences] = useState<any[]>([])
     const [allReferrals, setAllReferrals] = useState([])
     const [copied, setCopied] = useState(false);
+    const [email, setEmail] = useState("")
+    const [copyOpen, setCopyOpen] = useState<boolean>(false)
     const { toast } = useToast()
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setEmail(value)
+    }
+
+    const OpenCopy = () => {
+        setCopyOpen(true)
+    }
+
+    const CloseCopy = () => {
+        setCopyOpen(false)
+    }
 
     useEffect(() => {
 
@@ -131,7 +149,7 @@ const ReferAColleague = (props: Props) => {
     };
 
 
-    const generateReferralLink = () => {
+    const generateReferralLink = async () => {
 
         const random6DigitNumber = Math.floor(Math.random() * 900000) + 100000;
 
@@ -142,6 +160,42 @@ const ReferAColleague = (props: Props) => {
 
         // Set copied state to true to provide feedback to the user
         setCopied(true);
+
+
+        const data = {
+            referrer_id: profileId.toString(),
+            referral_code: random6DigitNumber.toString(),
+            referee_email: email,
+            status: 'Pending',
+        };
+
+        try {
+            setEmailLoading(true);
+            const referralResponse = await uploadRefferelCodeToDb(data, jwt);
+            if (referralResponse?.data?.data) {
+                setEmailLoading(false)
+                CloseCopy()
+                toast({
+                    description: "Invitation link has been generated/copied",
+                });
+            } else {
+                setEmailLoading(false)
+                CloseCopy()
+                toast({
+                    variant: "destructive",
+                    description: "Could not generate invitation link now",
+                });
+            }
+
+        } catch (error) {
+            setEmailLoading(false)
+            CloseCopy()
+            toast({
+                description: "Invitation link has been generated/copied",
+            });
+        }
+
+
 
         // Reset copied state after a short delay
         setTimeout(() => {
@@ -172,18 +226,17 @@ const ReferAColleague = (props: Props) => {
                 </div>
 
                 <div className='md:w-[65%] flex flex-col space-y-3'>
-                    
+
                     <div>
                         <h1 className='text-[#34495D] text-[14px] font-normal leading-[22px]'>Refer via email</h1>
                         <KeywordsInput refer placeholder='Enter Emails' KeywordsPreferences={KeywordsPreferences} setKeywordsPreferences={setKeywordsPreferences} onclick={handleSendEmail} loading={emailLoading} />
                     </div>
 
                     <div >
-
                         <div className='flex justify-between items-center'>
                             <h1 className='text-black text-[16px] font-bold '>Invited Professionals</h1>
 
-                            <div className='flex items-center space-x-2 cursor-pointer' onClick={generateReferralLink}>
+                            <div className='flex items-center space-x-2 cursor-pointer' onClick={OpenCopy}>
                                 <Image src={"/link.svg"} className='w-[18px] h-[18px] cursor-pointer' alt='link' width={500} height={500} />
                                 <h1 className='text-black text-[16px] font-bold'>Copy invitation link</h1>
                             </div>
@@ -226,6 +279,20 @@ const ReferAColleague = (props: Props) => {
 
                 </div>
             </div>
+
+            <Modal opened={copyOpen} onClose={CloseCopy} title="Generate Invitation link">
+                <form onSubmit={(e) => { e.preventDefault(); generateReferralLink(); }}>
+                    <h1>Enter the person&apos;s email you want to invite</h1>
+
+                    <Input value={email} name='email' onChange={handleChange} required type='email' placeholder='Enter email here' className='my-2' />
+                    <Button type='submit' className='my-2 bg-[#3EB87F]'> {emailLoading ? (
+                        <BiLoaderAlt className="text-center animate-spin w-[20px] h-[20px]" />
+                    ) : (
+                        "Generate/Copy invitation link"
+                    )}</Button>
+                </form>
+
+            </Modal>
 
             {/* the modal for refer a colleague clickhere */}
             <Modal opened={opened} size={"xl"} onClose={close} title="Our Referral system">

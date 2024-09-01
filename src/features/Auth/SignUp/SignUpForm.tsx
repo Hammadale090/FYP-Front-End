@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { defaultPreferences } from "@/features/Preferences/defaultPreferences";
+import { TiTick } from "react-icons/ti";
 
 type Props = {};
 const SignUpForm = (props: Props) => {
@@ -84,9 +85,9 @@ const SignUpForm = (props: Props) => {
       if (responseData.error) {
         const message = responseData?.error?.message
           ? responseData?.error?.message.replace(
-              "Email or Username are already taken",
-              "Email is already registered"
-            )
+            "Email or Username are already taken",
+            "Email is already registered"
+          )
           : "Something went wrong please retry.";
         setError(message);
         setLoader(false);
@@ -186,8 +187,8 @@ const SignUpForm = (props: Props) => {
 
         // message of a successful account creation
         toast({
-          description: "Account Created Successfully, Logging you in",
-          action: <IoCheckmarkDoneCircleSharp className="text-blue" />,
+          description: "Your account has been created successfully. Logging you in now.",
+          action: <TiTick className="text-green-500" />,
         });
         // sign into the app after creating the user
         const ress = await signIn("credentials", {

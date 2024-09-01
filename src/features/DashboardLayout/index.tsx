@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }: Props) => {
                             <FeedFilters />) : (
                             <Sidebar />
 
-                )
+                        )
                     }
 
 

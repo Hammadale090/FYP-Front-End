@@ -84,7 +84,7 @@ const CreateProperty = (props: Props) => {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   // console.log("this is tre bgalltery", gallery)
- 
+
 
   const handleAiDescriptionSuggestion = async () => {
     setAILoader(true);
@@ -507,6 +507,10 @@ const CreateProperty = (props: Props) => {
                       value={overview?.[fieldName]}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         let over = e.target.value
+                        if (label === "Bathrooms" || label === "Bedrooms" || label === "Size" || label === "Land Size" || label === "Year Build") {
+                          over = e.target.value.replace(/[^0-9]/g, '');
+                        }
+
                         if (over?.trim() === '') {
                           over = ""
                         }
@@ -524,7 +528,7 @@ const CreateProperty = (props: Props) => {
         {/* Description */}
         <div className="flex flex-col space-y-2 mt-8">
           <div className="flex items-center justify-between">
-            <h1  className="text-[18px] font-semibold leading-[20px] text-[#0B0C0E] ">
+            <h1 className="text-[18px] font-semibold leading-[20px] text-[#0B0C0E] ">
               Description
             </h1>
 
@@ -633,7 +637,6 @@ const CreateProperty = (props: Props) => {
         <InviteProfessional />
 
 
-
         {/* Real-Time Energy Efficiency Metrics */}
         <h1 className="text-[18px] font-semibold text-[#0B0C0E]  leading-[20px] mt-8 mb-4">
           Real-Time Energy Efficiency Metrics
@@ -677,7 +680,7 @@ const CreateProperty = (props: Props) => {
         <div className="grid grid-cols-1 md:space-y-6 ">
           <div className="flex flex-col space-y-2 mr-6  mt-4">
             <h1 className="text-[#292640] text-[16px] font-semibold leading-[18px]  ">
-              Virtual Tour URL
+              Video URL
             </h1>
             <Input
               required
@@ -816,7 +819,7 @@ const CreateProperty = (props: Props) => {
         <div className="grid grid-cols-1 md:space-y-6 ">
           <div className="flex flex-col space-y-2 mr-6  mt-4">
             <h1 className="text-[#292640] text-[16px] font-semibold leading-[18px] ">
-              Virtual Tour URL
+              Video URL
             </h1>
             <Input
               required
@@ -899,12 +902,12 @@ const CreateProperty = (props: Props) => {
 
         {/* Video Url for Property  */}
         <h1 className="text-[18px] text-[#0B0C0E] font-semibold leading-[20px] mt-8 mb-4">
-          Virtual Tour
+          Video
         </h1>
         <div className="grid grid-cols-1 md:space-y-6 ">
           <div className="flex flex-col space-y-2 mr-6  mt-4">
             <h1 className="text-[#292640] text-[16px] font-semibold leading-[18px]  ">
-              Virtual Tour URL
+              Video URL
             </h1>
             <Input
               required

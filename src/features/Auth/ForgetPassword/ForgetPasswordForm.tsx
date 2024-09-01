@@ -9,7 +9,7 @@ import { Checkbox } from "@mantine/core";
 import { useToast } from "@/components/ui/use-toast";
 import { fetcher } from "@/lib/fetchers";
 import { signIn } from "next-auth/react";
-import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { IoCheckmarkCircleOutline, IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { BiLoaderAlt } from "react-icons/bi";
 type Props = {};
 
@@ -77,7 +77,7 @@ const ForgetPasswordForm = (props: Props) => {
       } else {
         toast({
           description: `Password reset Link has been sent to ${form.email}`,
-          action: <IoCheckmarkDoneCircleSharp className="text-blue" />,
+          action: <IoCheckmarkCircleOutline className='text-green-500' />,
         });
 
         setLoader(false);

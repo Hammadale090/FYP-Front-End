@@ -130,6 +130,7 @@ export interface Listing {
     currency?: string;
     views?: number;
     favourites?: number;
+    galleryWithUrls: Array<string>;
     Gallery?: Array<{
       data?: {
         attributes?: {
@@ -137,7 +138,7 @@ export interface Listing {
         };
       };
     }>;
-    coverPhoto?: 
+    coverPhoto?:
       | Array<{ data?: { attributes?: { url?: string | null } } }>
       | { data?: { attributes?: { url?: string | null } } };
     event?: {
@@ -238,7 +239,7 @@ export type ProfSettingsProps = {
   brokerLoader?: boolean;
   setSelectedListing?: Dispatch<any>;
   selectedListing?: any;
-  data : any[];
+  data: any[];
   setData: Dispatch<SetStateAction<any[]>>;
   setEventDetails?: Dispatch<
     SetStateAction<{
@@ -291,7 +292,7 @@ export type ProfSettingsProps = {
     city: string;
     social_links?: any[];
     promo_text: string;
-    promo_code:string
+    promo_code: string;
   };
   setProfDetails?: Dispatch<
     SetStateAction<{
@@ -305,6 +306,6 @@ export type ProfSettingsProps = {
       promo_text: string;
     }>
   >;
-  isEditing?:boolean;
+  isEditing?: boolean;
   setIsEditing?: Dispatch<SetStateAction<boolean>>;
 };

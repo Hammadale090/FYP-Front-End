@@ -4,7 +4,7 @@ import { AuthContext } from '@/context/AuthContext';
 import { fetcher } from '@/lib/fetchers';
 import { ProfSettingsContext } from '@/context/ProfSettingsContext';
 import { ListingContext } from '@/context/ListingContext';
-import { getProperty, updateProperty, uploadImage } from '@/features/Property/function';
+import { getProperty, updateProperty, updateViews, uploadImage } from '@/features/Property/function';
 import { useParams, useSearchParams } from 'next/navigation';
 
 interface Features {
@@ -61,7 +61,7 @@ export function useGetProperty(param?: string) {
             setLoading(true);
             try {
                 const property = await getProperty(jwt, slug);
-                
+
 
                 if (property?.data) {
                     const { attributes } = property.data;
@@ -164,6 +164,30 @@ export function useGetProperty(param?: string) {
 
         if (propertyData) {
             addNewViewToListingHandler()
+        }
+
+    }, [propertyData])
+
+
+    useEffect(() => {
+        const addtoView = async () => {
+
+            if (propertyData) {
+
+                if (propertyData?.attributes?.professional_profile?.data?.attributes?.client_profile?.data?.id !== profileId) {
+                    const propertyId = propertyData?.id;
+
+                    try {
+                        await updateViews(jwt, propertyId, profileId);
+                    } catch (error) {
+                        console.error('Error Adding views:', error);
+                    }
+                }
+
+            }
+        }
+        if (propertyData) {
+            addtoView()
         }
 
     }, [propertyData])

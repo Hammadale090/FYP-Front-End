@@ -173,7 +173,6 @@ const AcceptInvite = (props: Props) => {
 
                 </div></div>
         )
-
     } else if (status === "authenticated" && !loading && !loader && (referData?.attributes?.invited_professional?.data?.id === professionalId)) {
         return (
             <div className='my-5'>
@@ -192,7 +191,13 @@ const AcceptInvite = (props: Props) => {
                     <h1>Invited by : {referData?.attributes?.listing_owner?.data?.attributes?.full_name}</h1>
                     {
                         accepted || referData?.attributes?.status === "accepted" ? (
-                            <IconShowcaseBox text={"Invitation Accepted"} color='#3EB87F' width='w-fit' textCN='text-[12px] font-semibold leading-[26px] text-white' px='10px' py='2px' rounded={"4px"} noBorder />
+                            <div className='flex flex-col space-y-2 items-center'>
+                                <IconShowcaseBox text={"Invitation Accepted"} color='#3EB87F' width='w-fit' textCN='text-[12px] font-semibold leading-[26px] text-white' px='10px' py='2px' rounded={"4px"} noBorder />
+                                <IconShowcaseBox onClick={() => {
+                                    router.push("/dashboard/feed")
+                                }} text={"Go to Feed"} color='#3EB87F' width='w-fit' textCN='text-[12px] font-semibold leading-[26px] text-white' px='10px' py='2px' rounded={"4px"} noBorder />
+                            </div>
+
                         ) : (
                             <IconShowcaseBox onClick={handleAcceptInvite} text={"Accept"} color='#3EB87F' width='w-fit' textCN='text-[12px] font-semibold leading-[26px] text-white' px='10px' py='2px' rounded={"4px"} noBorder />
                         )

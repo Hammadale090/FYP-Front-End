@@ -3,20 +3,27 @@ import { Textarea } from '@/components/ui/textarea'
 import IconShowcaseButton from '@/features/Dashboard/shared/IconShowcaseButton'
 import { Modal } from '@mantine/core'
 import { useToast } from '@/components/ui/use-toast'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '@/context/AuthContext'
 import axios from 'axios'
 import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5'
 import { ProfSettingsContext } from '@/context/ProfSettingsContext'
 import { Label } from '@/components/ui/label'
 import { validateNewServiceFields } from '@/utils/Validations'
+import { Service } from '@/context/types'
+import IconShowcaseBox from '@/features/Dashboard/shared/IconShowcaseBox'
+import { deleteServ } from '../functions/functions'
 
 type Props = {
     opened: boolean;
     close: () => void;
+    serviceToUpdate?: Service;
+    serviceData?: any;
+    setServiceData?: any;
+    setUpdate?: any;
 }
 
-const AddService = ({ opened, close }: Props) => {
+const AddService = ({ opened, close, serviceToUpdate, serviceData, setServiceData, setUpdate }: Props) => {
     const [loader, setLoader] = useState<boolean>(false)
     const { toast } = useToast();
     const { profileId, professionalId, jwt } = useContext(AuthContext)
@@ -47,6 +54,9 @@ const AddService = ({ opened, close }: Props) => {
     }
 
     const resetForm = () => {
+        if (serviceToUpdate?.id) {
+            setUpdate(null)
+        }
         setForm({
             name: "",
             location: "",
@@ -95,22 +105,43 @@ const AddService = ({ opened, close }: Props) => {
                 }
             }
 
-            const addProf = await axios.post(
-                `${process.env.NEXT_PUBLIC_STRAPI_URL}/services`,
-                {
-                    data: {
-                        ...dat,
-                        client_profile: profileId,
-                        professional_profile: professionalId
+            let addProf;
+            if (serviceToUpdate?.id) {
+                addProf = await axios.put(
+                    `${process.env.NEXT_PUBLIC_STRAPI_URL}/services/${serviceToUpdate?.id}`,
+                    {
+                        data: {
+                            ...dat,
+                            client_profile: profileId,
+                            professional_profile: professionalId
+                        },
                     },
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${jwt}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+            }
+            else {
+                addProf = await axios.post(
+                    `${process.env.NEXT_PUBLIC_STRAPI_URL}/services`,
+                    {
+                        data: {
+                            ...dat,
+                            client_profile: profileId,
+                            professional_profile: professionalId
+                        },
                     },
-                }
-            );
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${jwt}`,
+                        },
+                    }
+                );
+            }
 
             if (addProf?.data?.data?.id) {
                 if (setServicesLoader) {
@@ -137,21 +168,83 @@ const AddService = ({ opened, close }: Props) => {
         }
     }
 
+    console.log("the service to update", serviceToUpdate)
+
+    useEffect(() => {
+        if (serviceToUpdate?.id) {
+            setForm({
+                name: serviceToUpdate?.attributes?.name ?? '',
+                location: serviceToUpdate?.attributes?.location ?? '',
+                price: serviceToUpdate?.attributes?.price ?? '',
+                description: serviceToUpdate?.attributes?.description ?? '',
+            })
+        }
+    }, [serviceToUpdate])
+
+
+
+    const deleteService = async () => {
+        let id = serviceToUpdate?.id
+        if (!id) return
+        try {
+            const res = await deleteServ(id, jwt);
+
+            if (res?.data) {
+                // Assuming articlesData is initialized properly or has a type assertion
+                const updatedServiceData = serviceData.filter((service: Service | undefined) => service?.id !== id);
+                setServiceData(updatedServiceData);
+                toast({
+                    description: "Service deleted successfully",
+                    action: (
+                        <IoCheckmarkDoneCircleSharp className='text-blue' />
+                    ),
+                });
+                resetForm()
+                close();
+            }
+
+            if (res?.error) {
+                toast({
+                    variant: "destructive",
+                    description: res?.error?.message,
+                });
+            }
+
+
+        } catch (error) {
+            console.error("Error deleting service:", error);
+            toast({
+                variant: "destructive",
+                description: "Something went wrong",
+            });
+        }
+
+    };
 
     return (
         <Modal opened={opened} size={"55rem"} onClose={() => {
             resetForm()
             setArticleBanner(null)
             close()
-        }} title="Add Service" >
+        }} title={`${serviceToUpdate?.id ? "Update" : "Add"} Service`} >
 
             <form onSubmit={handleAddService}>
 
                 {/* the service banner */}
                 <div className='mt-4 w-full  flex flex-col space-y-1'>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="picture">Service Banner</Label>
-                        <Input onChange={handleFileChange} id="picture" type="file" />
+                        <h1>Service Banner</h1>
+                        <Label className='px-2 py-2 rounded-md border border-slate-200 w-fit cursor-pointer' htmlFor="picture">
+                            Choose a picture
+                        </Label>
+
+                        <Label className='px-2 py-2 rounded-md border border-slate-200 w-fit' >
+                            {
+                                articleBanner?.name ?? "No file chosen"
+                            }
+                        </Label>
+
+                        <Input className='hidden' onChange={handleFileChange} id="picture" type="file" />
                     </div>
                 </div>
 
@@ -161,7 +254,21 @@ const AddService = ({ opened, close }: Props) => {
                     <Input name='name'
                         value={form.name}
                         maxLength={100}
-                        onChange={handleChange}
+                        onChange={(e: any) => {
+                            const { name, value } = e.target;
+
+                            // Regular expression to allow only letters and spaces
+                            const lettersOnly = /^[A-Za-z\s]*$/;
+
+                            // Check if the value matches the regular expression
+                            if (lettersOnly.test(value)) {
+                                // Update the form state if validation passes
+                                setForm({
+                                    ...form,
+                                    [name]: value
+                                });
+                            }
+                        }}
                         required
                         className='bg-[#FCFCFC] border border-[#E4E4E4] px-[10px] rounded-[6px] py-[10px] placeholder-gray-500 placeholder-opacity-50 ' placeholder='Enter name of the service' />
                 </div>
@@ -209,7 +316,12 @@ const AddService = ({ opened, close }: Props) => {
                 <h1 className='text-center my-1 text-[14px] text-red-500'> {error}</h1>
 
                 {/* Add service button */}
-                <IconShowcaseButton loading={loader} text='Add Service' color='#3EB87F' textCenter width='w-full' textCN='text-[16px] font-semibold leading-[26px] text-white mx-[19px]' px='19px' py='9px' rounded={"4px"} noBorder />
+                <div className='flex flex-col space-y-4'>
+                    <IconShowcaseButton loading={loader} text={`${serviceToUpdate?.id ? "Update" : "Add"} Service`} color='#3EB87F' textCenter width='w-full' textCN='text-[16px] font-semibold leading-[26px] text-white mx-[19px] cursor-pointer' px='19px' py='9px' rounded={"4px"} noBorder />
+                    {/* delete service button */}
+                    <IconShowcaseBox onClick={deleteService} loading={loader} text='Delete Service' color='#3EB87F' textCenter width='w-full' textCN='text-[16px]  font-semibold leading-[26px] text-white mx-[19px] cursor-pointer' px='19px' py='9px' rounded={"4px"} noBorder />
+                </div>
+
             </form>
 
         </Modal >

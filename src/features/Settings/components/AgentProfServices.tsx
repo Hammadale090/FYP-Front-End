@@ -12,6 +12,7 @@ type Props = {}
 const AgentProfServices = (props: Props) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [servicesData, setServicesData] = useState([])
+    const [serviceUpdate, setServiceUpdate] = useState<Service>()
     const { data, loading, allData } = useGetUserServices()
 
     useEffect(() => {
@@ -24,6 +25,12 @@ const AgentProfServices = (props: Props) => {
         loadData();
 
     }, [allData, data]);
+
+    const updateServices = async (id: string | number | undefined) => {
+        const services = servicesData.find((service: Service | undefined) => service?.id == id)
+        setServiceUpdate(services)
+        open()
+    }
 
     return (
         <section className='bg-[#FCFCFC] flex flex-col space-y-3 mt-10 rounded-[10px] w-full  p-[20px]'>
@@ -38,7 +45,7 @@ const AgentProfServices = (props: Props) => {
                 <FeedPropertyCard featuredClassName Add Addtext='Add Service' AddOnclick={open} />
                 {
                     servicesData?.map((service: Service) => (
-                        <FeedPropertyCard bannerTrue key={service?.id} id={service?.id} banner={service?.attributes?.Gallery} title={service?.attributes?.name} description={service.attributes.description} location={service.attributes.location} price={service.attributes.price} currency={service.attributes.currency} featuredClassName disabled={true} />
+                        <FeedPropertyCard service serviceFunc={updateServices} bannerTrue key={service?.id} id={service?.id} banner={service?.attributes?.Gallery} title={service?.attributes?.name} description={service.attributes.description} location={service.attributes.location} price={service.attributes.price} currency={service.attributes.currency} featuredClassName disabled={true} />
                     ))
                 }
             </div >
@@ -49,7 +56,7 @@ const AgentProfServices = (props: Props) => {
                 )
             }
 
-            <AddService opened={opened} close={close} />
+            <AddService opened={opened} close={close} serviceData={servicesData} setUpdate={setServiceUpdate} setServiceData={setServicesData} serviceToUpdate={serviceUpdate} />
 
         </section>
     )
