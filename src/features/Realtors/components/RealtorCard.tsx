@@ -18,7 +18,7 @@ const RealtorCard = ({ realtor, firstname, lastname, phone, email, url, profile_
     return (
         <div className='w-full md:w-[370px] h-full md:h-[449px] cursor-pointer md:mx-2 my-2 flex-shrink-0  rounded-xl'>
             {/* the realtor or broker Image/profile Image */}
-            <Image height={1000} width={1000} className='h-[240px] rounded-t-xl object-cover' alt='property Image' src={profile_pic ? profile_pic : `${realtor ? { realtor } : "/Dashboard/Brokers.svg"}`} />
+            <Image height={1000} width={1000} className='h-[240px] rounded-t-xl object-cover' alt='property Image' src={profile_pic ? profile_pic : `${realtor ? { realtor } : "/Dashboard/Brokers.png"}`} />
             {/* The lower div */}
             <div className='py-5 px-5'>
                 {/* the Title  and rating*/}

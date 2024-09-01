@@ -9,7 +9,7 @@ const ModernSpace = (props: Props) => {
 
             <div className='flex flex-col space-y-2 md:space-y-4'>
                 <h1 className='text-[#34495D] md:w-[520px] text-[26px] md:text-[48px] font-bold leading-[56px]'>Modern Spaces and Premium Apartment Complexes</h1>
-                <h1 className='text-[#383838] text-[16px] md:text-[24px] font-medium leading-[34px] md:w-[440px]'>Welcome to Nesti Residence Showcase</h1>
+                <h1 className='text-[#383838] text-[16px] md:text-[24px] font-medium leading-[34px] md:w-[440px]'>Welcome to Residence Realm Residence Showcase</h1>
                 <h1 className='text-[#383838] text-[14px] md:text-[16px] font-normal leading-[26px] md:w-[409px]'>When you invest, you’ll have an equity stake in a collection of properties without the hassle of purchasing and managing it yourself.</h1>
             </div>
 

@@ -19,7 +19,7 @@ const Navbar = (props: Props) => {
             <div className="flex items-center space-x-4 md:space-x-20">
                 {/* The logo */}
                 <Image
-                    src={"/Dashboard/Logo.png"}
+                    src={"/Dashboard/logo-1.png"}
                     alt="Logo"
                     height={1000}
                     width={1000}

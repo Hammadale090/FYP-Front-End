@@ -18,9 +18,9 @@ const Sidebar = (props: Props) => {
             text = "Brokers";
         }
 
-        if (text === "Running Adds") {
-            text = "running-adds"
-        }
+        // if (text === "Running Adds") {
+        //     text = "running-adds"
+        // }
 
         // Split the URL by "/"
         const segments = params.split('/');

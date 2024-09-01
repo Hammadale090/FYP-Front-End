@@ -51,12 +51,12 @@ export const SidebarList = [
         Icon: FiltersIcon,
         link: "/filters"
     },
-    {
-        id: 9,
-        text: "Running Adds",
-        Icon: SettingsIcon,
-        link: "/dashboard/running-adds"
-    },
+    // {
+    //     id: 9,
+    //     text: "Running Adds",
+    //     Icon: SettingsIcon,
+    //     link: "/dashboard/running-adds"
+    // },
 
 
 ]
