@@ -96,8 +96,8 @@ const Footer = (props: Props) => {
     return (
         <footer className='max-w-[1400px] mx-auto my-20'>
             <div className='flex max-lg:flex-col max-lg:space-y-2 lg:justify-between lg:items-center'>
-                <Image src={"/Dashboard/Logo.png"} alt='Logo' height={1500} width={1500} className='max-w-[110px] max-h-[83px]' />
-                <h1 className='text-[16px] font-normal leading-[26px] text-[#34495D] max-w-[570px]'>Nesti is a powerful platform that lets you run a residential or commercial rental business online with no hassle</h1>
+                <Image src={"/Dashboard/logo-1.png"} alt='Logo' height={1500} width={1500} className='max-w-[110px] max-h-[83px]' />
+                <h1 className='text-[16px] font-normal leading-[26px] text-[#34495D] max-w-[570px]'>Residence Realm is a powerful platform that lets you run a residential or commercial rental business online with no hassle</h1>
             </div>
 
             <Divider my="sm" />
@@ -142,11 +142,11 @@ const Footer = (props: Props) => {
                     <h1 className='mb-7 text-ravinna text-[24px] leading-[34px] font-normal'>Contact Us</h1>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/location.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>142 Bay Rd, Miami Beach, FL 33139</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>Jhang Road Faislabad 38000, Punjab</h1>
                     </div>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/Call.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>000 000 0000</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>+92 302 668 9292</h1>
                     </div>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/Phone.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
@@ -154,7 +154,7 @@ const Footer = (props: Props) => {
                     </div>
                     <div className='flex space-x-4 items-center'>
                         <Image src={"/Landing/Mail.svg"} className='w-[20px] h-[20px]' alt='location svg' height={500} width={500} />
-                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>email1234@email.com</h1>
+                        <h1 className='text-ravinna text-[16px] font-normal leading-[40px]'>chief.outlook@email.com</h1>
                     </div>
                 </div>
 
@@ -181,7 +181,7 @@ const Footer = (props: Props) => {
             <Divider my="sm" />
             <div className='flex max-lg:flex-col-reverse lg:justify-between items-center my-5'>
                 <div className='flex max-lg:flex-col-reverse  lg:space-x-5'>
-                    <h1 className='text-[16px] font-normal leading-[26px] text-ravinna'>©2021 ravianna.com</h1>
+                    <h1 className='text-[16px] font-normal leading-[26px] text-ravinna'>©2021 Residence Realm</h1>
                     <h1 className='text-[16px] font-normal leading-[26px] text-ravinna'>Privacy Terms</h1>
                 </div>
 

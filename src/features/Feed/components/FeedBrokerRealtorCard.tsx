@@ -202,8 +202,8 @@ const FeedBrokerRealtorCard = ({
           profile_pic
             ? profile_pic
             : realtor
-              ? "/Dashboard/Brokers.svg"
-              : "/Dashboard/Brokers.svg"
+              ? "/Dashboard/Brokers.png"
+              : "/Dashboard/Brokers.png"
         }
       />
       {/* The lower div */}

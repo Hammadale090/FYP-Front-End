@@ -17,7 +17,7 @@ const PropertyPreference = (props: Props) => {
             </div>
 
             <div className='flex flex-col space-y-4 w-full xl:w-1/3'>
-                <h1 className='text-[#34495D] text-[38px] font-semibold leading-[48px]'>Nesti Better. Access Diversification, Passive Income, and Potential Tax Savings.</h1>
+                <h1 className='text-[#34495D] text-[38px] font-semibold leading-[48px]'>Residence Realm Better. Access Diversification, Passive Income, and Potential Tax Savings.</h1>
                 <h1 className='text-[#383838] text-[16px] font-normal leading-[26px]'>This is just placeholder text. Don’t be alarmed. This is just placeholder text. This is just placeholder text. Don’t be alarmed. This is just placeholder text.</h1>
                 {/* the text input */}
                 <TextInput
