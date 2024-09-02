@@ -391,7 +391,7 @@ const ListingCreated = (props: Props) => {
               )}
 
               <h1 className="text-[16px] font-medium leading-[20px] mt-8 mb-4">
-                Property Type: <br /> <span className="font-bold">{propertyData?.attributes?.type}</span>  
+                Property Type: <br /> <span className="font-bold">{propertyData?.attributes?.type}</span>
               </h1>
               {/* Overview */}
               <h1 className="text-[16px] font-medium leading-[20px] mt-8 mb-4">
@@ -825,10 +825,19 @@ const ListingCreated = (props: Props) => {
 
               {/*   Smart Furiture Placement Suggestions*/}
               <h1 className="text-[16px] font-medium leading-[20px] mt-8 mb-4">
-                Smart Furiture Placement Suggestions
+                Virtual Tour
               </h1>
               <div className="grid grid-cols-1  ">
                 <div className="relative w-full max-h-[437px]">
+                  <iframe
+                    src="https://my.matterport.com/show/?play=1&lang=en-US&m=5zn45Lf2edz"
+                    style={{ width: '100%', height: '437px' }}
+                    frameBorder="0"
+                    allowFullScreen
+                    allow="xr-spatial-tracking"
+                    title="Virtual Tour"
+                  />
+                  {/*       
                   <ReactPlayer
                     controls
                     width="100%"
@@ -836,7 +845,7 @@ const ListingCreated = (props: Props) => {
                     url={
                       propertyData?.attributes?.furnitureSugesstions?.videoUrl
                     }
-                  />
+                  /> */}
                   {/* <iframe
                 className="w-full h-[437px]"
                 src={
