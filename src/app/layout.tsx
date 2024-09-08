@@ -38,6 +38,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <ColorSchemeScript />
+
+        {/* Add the favicon here */}
+        <link rel="icon" href="//Dashboard/logo-1.jpg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
       {/* the flex justify center on here was making the modals not show */}
       <body
@@ -48,8 +53,8 @@ export default function RootLayout({
           <MantineProvider>
             <NextAuthProvider>
               <ContextProvider>
-                  {children}
-                  <Toaster />
+                {children}
+                <Toaster />
               </ContextProvider>
             </NextAuthProvider>
           </MantineProvider>
