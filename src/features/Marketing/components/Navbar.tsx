@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GrClose } from "react-icons/gr";
+import Link from "next/link";
 
 type Props = {};
 
@@ -19,7 +20,7 @@ const Navbar = (props: Props) => {
             <div className="flex items-center space-x-4 md:space-x-20">
                 {/* The logo */}
                 <Image
-                    src={"/Dashboard/logo-1.png"}
+                    src={"/Dashboard/logo-1.jpg"}
                     alt="Logo"
                     height={1000}
                     width={1000}
@@ -37,15 +38,15 @@ const Navbar = (props: Props) => {
 
             <div className="flex space-x-[60px]">
                 <div className="hidden md:flex space-x-[34px] items-center ">
-                    <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-[#3EB87F]">
+                    <Link href='/' className="cursor-pointer text-[16px] font-normal leading-[26px] text-[#3EB87F]">
                         Home
-                    </h1>
-                    <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
+                    </Link>
+                    <Link href='' className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
                         Property
-                    </h1>
-                    <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
+                    </Link>
+                    <Link href={''} className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
                         About
-                    </h1>
+                    </Link>
                     <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
                         Blog
                     </h1>

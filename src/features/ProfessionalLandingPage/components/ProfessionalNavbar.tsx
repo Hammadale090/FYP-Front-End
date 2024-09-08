@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {};
 
@@ -12,7 +13,7 @@ const ProfessionalNavbar = (props: Props) => {
       <div className="flex items-center space-x-4 md:space-x-20">
         {/* The logo */}
         <Image
-          src={"/Dashboard/logo-1.png"}
+          src={"/Dashboard/logo-1.jpg"}
           alt="Logo"
           height={1000}
           width={1000}
@@ -29,13 +30,13 @@ const ProfessionalNavbar = (props: Props) => {
       </div>
 
       <div className="flex space-x-7">
-        <div className="hidden md:flex space-x-7 items-center ">
-          <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-[#3EB87F]">
+        {/* <div className="hidden md:flex space-x-7 items-center ">
+          <Link href='/' className="cursor-pointer text-[16px] font-normal leading-[26px] text-[#3EB87F]">
             Home
-          </h1>
-          <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
+          </Link>
+          <Link href='/dashboard/property' className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
             Property
-          </h1>
+          </Link>
           <h1 className="cursor-pointer text-[16px] font-normal leading-[26px] text-black">
             About
           </h1>
@@ -54,7 +55,7 @@ const ProfessionalNavbar = (props: Props) => {
               className="w-[12px] h-[6px]"
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Sign in */}
         <div

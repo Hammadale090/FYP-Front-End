@@ -34,9 +34,9 @@ const LandingPage = ({ user }: Props) => {
             {/* Data for rge areas */}
             <DataArea />
             {/* explore property listins */}
-            <ExplorePropertyListings />
+            {/* <ExplorePropertyListings /> */}
             {/* smart living invest */}
-            <Invest />
+            {/* <Invest /> */}
             {/* Modern Space */}
             <ModernSpace />
             {/* Happy Customers */}

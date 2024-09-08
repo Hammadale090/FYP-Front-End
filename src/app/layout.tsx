@@ -25,7 +25,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Ravinna AI frontend",
+  title: "Residence Realm",
   description: "Ravinna frontend",
 };
 
