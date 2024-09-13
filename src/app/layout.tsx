@@ -40,7 +40,7 @@ export default function RootLayout({
         <ColorSchemeScript />
 
         {/* Add the favicon here */}
-        <link rel="icon" href="//Dashboard/logo-1.jpg" />
+        <link rel="icon" href="//Dashboard/logo-1.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>

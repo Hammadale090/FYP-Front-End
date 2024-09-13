@@ -96,7 +96,7 @@ const Footer = (props: Props) => {
     return (
         <footer className='max-w-[1400px] mx-auto my-20'>
             <div className='flex max-lg:flex-col max-lg:space-y-2 lg:justify-between lg:items-center'>
-                <Image src={"/Dashboard/logo-1.jpg"} alt='Logo' height={1500} width={1500} className='max-w-[110px] max-h-[83px]' />
+                <Image src={"/Dashboard/logo-1.png"} alt='Logo' height={1500} width={1500} className='max-w-[110px] max-h-[83px]' />
                 <h1 className='text-[16px] font-normal leading-[26px] text-[#34495D] max-w-[570px]'>Residence Realm is a powerful platform that lets you run a residential or commercial rental business online with no hassle</h1>
             </div>
 

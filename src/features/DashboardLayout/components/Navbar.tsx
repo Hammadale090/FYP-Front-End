@@ -35,7 +35,7 @@ const Navbar = (props: Props) => {
                 {/* The logo */}
                 <Image onClick={() => {
                     router.push("/dashboard")
-                }} src={"/Dashboard/logo-1.jpg"} alt='Logo' height={1000} width={1000} className='max-w-[80px] max-h-[70px] cursor-pointer hidden md:inline-flex' />
+                }} src={"/Dashboard/logo-1.png"} alt='Logo' height={1000} width={1000} className='max-w-[80px] max-h-[70px] cursor-pointer hidden md:inline-flex' />
 
                 {/* the menubar for mobile view */}
                 <Image src={"/Feed/Menu.svg"} alt='mobile view' height={500} width={500} className='md:hidden w-[18px] h-[14px]' />

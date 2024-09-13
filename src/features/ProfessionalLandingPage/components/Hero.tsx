@@ -119,7 +119,7 @@ const Hero = ({ user }: Props) => {
       <div className="relative">
         <div className="flex md:my-[74px] mx-[20px] md:mx-[70px] flex-col max-w-[600px] md:space-y-5 absolute">
           <h1 className="text-[16px] md:text-[84px] font-extrabold leading-[24px] md:leading-[92px] text-[#34495D]">
-            {user ? "Find your Dream home" : " Become a professional Realtor"}
+            {user ? "Find Your Dream Home" : " Become a professional Realtor"}
           </h1>
           <h1 className="text-[14px] max-md:w-[80%] md:text-[16px] font-normal leading-[26px] text-[#383838] md:max-w-[469px]">
             {user
