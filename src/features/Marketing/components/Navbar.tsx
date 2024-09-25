@@ -24,7 +24,7 @@ const Navbar = (props: Props) => {
                     alt="Logo"
                     height={1000}
                     width={1000}
-                    className="max-w-[60px] max-h-[45px]"
+                    className="max-w-[120px] max-h-[100px]"
                 />
                 {/* the menubar for mobile view
         <Image

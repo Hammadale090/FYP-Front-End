@@ -219,7 +219,7 @@ const AgentProfDetails = (props: Props) => {
         <div className="flex space-x-2 my-4 items-center">
           <Image
             src={"/Realtor/logo-1.png"}
-            className="hidden md:inline-flex max-h-[66px] max-w-[80px] rounded-xl"
+            className="hidden md:inline-flex max-h-[120px] max-w-[100px] rounded-xl"
             alt="estate image"
             width={500}
             height={500}
