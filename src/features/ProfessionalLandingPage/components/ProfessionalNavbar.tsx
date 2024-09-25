@@ -58,7 +58,7 @@ const ProfessionalNavbar = (props: Props) => {
         </div> */}
 
         {/* Sign in */}
-        <p className="text-xl font-bold text-gray-800 text-end">Residence Relam</p>
+        <p className="text-xl font-bold text-gray-800 text-end my-2">Residence Relam</p>
         <div
           onClick={() => {
             router.push("/log-in");
